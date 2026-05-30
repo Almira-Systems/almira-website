@@ -1,0 +1,48 @@
+@use "../../node_modules/utopia-core-scss/src/utopia" as utopia;
+
+:root {
+  @include utopia.generateTypeScale(
+    (
+      "minWidth": 320,
+      "maxWidth": 1240,
+      "minFontSize": 16,
+      "maxFontSize": 20,
+      "minTypeScale": 1.2,
+      "maxTypeScale": 1.25,
+      "positiveSteps": 3,
+      "negativeSteps": 3,
+      /* Optional params */ "relativeTo": "viewport",
+      "prefix": "step-",
+    )
+  );
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+  font-family: var(--font-open-sans);
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

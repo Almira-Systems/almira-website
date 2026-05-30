@@ -1,0 +1,13 @@
+@use "colors" as c;
+@mixin border-glow {
+  border: 1px solid c.$light_gray;
+  box-shadow: 0 0 0 0 c.$light_gray;
+  transition:
+    border 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    border: 1px solid c.$turquoise;
+    box-shadow: 0 0 0 2px c.$turquoise;
+  }
+}

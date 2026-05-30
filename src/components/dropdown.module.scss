@@ -1,0 +1,25 @@
+@use "@/styles/colors" as c;
+
+div.dropdown_container {
+  position: relative;
+  // display: flex;
+
+  ul.dropdown {
+    display: flex;
+    flex-flow: column nowrap;
+    position: absolute;
+    // bottom: -5rem;
+    top: 0;
+    left: 0;
+    border: 0;
+    background: c.$darkblue;
+    color: c.$white;
+    translate: 0 calc(50% + 1.2rem);
+    font-family: var(--font-open-sans);
+
+    > li {
+      padding: 0.5rem;
+      font-size: var(--step--2);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+div.carousel {
+  display: flex;
+  flex-flow: row nowrap;
+
+  max-width: 85vw;
+  overflow: auto;
+  gap: 0.8rem;
+  margin-block: 0.6rem;
+  padding: 0.2rem 0.6rem;
+
+  >* {
+    user-select: none;
+  }
+}

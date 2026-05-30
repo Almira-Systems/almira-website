@@ -1,0 +1,125 @@
+@use "@/styles/colors" as c;
+@use "@/styles/responsive" as r;
+header.header {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+  justify-content: space-between;
+
+  font-family: var(--font-open-sans);
+  width: 100%;
+
+  font-size: var(--step-0);
+
+  @include r.responsive("mobile") {
+  }
+
+  > section {
+    align-items: center;
+    padding: 0.6rem 2.4rem;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    font-size: var(--step--2);
+    @include r.responsive("mobile") {
+      justify-content: center;
+    }
+
+    > img {
+      width: 50%;
+      height: auto;
+      @include r.responsive("mobile") {
+        width: 80%;
+      }
+    }
+
+    > div {
+      display: flex;
+      flex-flow: column wrap;
+      @include r.responsive("mobile") {
+        display: none;
+      }
+
+      > div.buttons {
+        display: flex;
+
+        align-content: center;
+        justify-content: flex-end;
+        gap: 0.4rem;
+
+        > button {
+          display: flex;
+          padding: 0.4rem;
+          border: 0;
+          background-color: c.$light_gray;
+          height: min-content;
+
+          > svg {
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
+      > div.contact {
+        display: flex;
+        flex-flow: row wrap;
+        align-content: center;
+        gap: 0.4rem;
+
+        > button {
+          display: flex;
+          padding: 0.4rem;
+          border: 0;
+          background-color: c.$light_gray;
+          height: min-content;
+
+          > svg {
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+  > nav {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: row wrap;
+    // gap: 1rem;
+    padding: 0.6rem 2rem;
+
+    text-transform: uppercase;
+
+    color: c.$white;
+    background-color: c.$darkblue;
+    align-items: center;
+    justify-content: center;
+
+    @include r.responsive("mobile") {
+      font-size: var(--step--2);
+      padding: 0.2rem 2rem;
+    }
+    button {
+      border: 0;
+      background-color: inherit;
+      padding: 0.4rem;
+      height: min-content;
+
+      > svg {
+        display: block;
+      }
+    }
+    > input {
+      flex-grow: 1;
+      line-height: 2;
+      padding-inline: 0.4rem;
+      @include r.responsive("mobile") {
+        font-size: var(--step--2);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

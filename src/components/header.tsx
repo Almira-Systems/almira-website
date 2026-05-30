@@ -1,0 +1,89 @@
+import Image from "next/image";
+import styles from "./header.module.scss";
+import { LinkedInIcon } from "@/app/icons/linkedin";
+import { SearchIcon } from "@/app/icons/search_icon";
+import Link from "next/link";
+import Dropdown from "./dropdown";
+import { MenuIcon } from "lucide-react";
+
+const AW_LOGO_URL =
+  "https://www.ameriwater.com/wp-content/themes/ameriwater/assets/images/logo_registered.png";
+
+const AW_TEL = "800 535 5585";
+const AW_EMAIL = "info@ameriwater.com";
+
+const Header = () => {
+  return (
+    <header className={styles.header}>
+      <section>
+        <Link href="/">
+          <Image
+            loading="eager"
+            src={AW_LOGO_URL}
+            alt="logo"
+            width={400}
+            height={86}
+          />
+        </Link>
+        <div>
+          <div className={styles.buttons}>
+            <button>
+              <LinkedInIcon />
+            </button>
+            <button>
+              <SearchIcon />
+            </button>
+          </div>
+          <div className={styles.contact}>
+            <Link type="tel" href={`tel:${AW_TEL}`}>
+              <b>T:</b> {AW_TEL}
+            </Link>
+            <Link type="email" href={`mailto:${AW_EMAIL}`}>
+              <b>E:</b> {AW_EMAIL}
+            </Link>
+          </div>
+        </div>
+      </section>
+      <nav>
+        <Dropdown
+          id="nav-dropdown"
+          triggerId="nav-dropdown-trigger"
+          trigger={
+            <button
+              className={styles.dropdown_trigger}
+              id="nav-dropdown-trigger"
+            >
+              <MenuIcon color="#fff" />
+            </button>
+          }
+          options={[
+            { label: "All Products", value: "all_products" },
+            { label: "Devices", value: "devices" },
+            {
+              label: "Parts & Consumables",
+              value: "parts_and_consumables",
+            },
+          ]}
+        />
+        <input
+          type="text"
+          placeholder="Search by device name or part number..."
+        />
+      </nav>
+    </header>
+  );
+};
+{
+  /* <Link href="#products">All Products</Link> */
+}
+{
+  /* <Link href="/about"></Link> */
+}
+{
+  /* <Link href="#devices">Devices</Link> */
+}
+{
+  /* <Link href="#products">Parts {"&"} Consumables</Link> */
+}
+
+export default Header;

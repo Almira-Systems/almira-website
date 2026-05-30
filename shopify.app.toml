@@ -1,0 +1,4 @@
+[product.metafields.custom.models]
+type = "list.metaobject_references"
+name = "Model"
+

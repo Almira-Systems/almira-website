@@ -1,0 +1,29 @@
+@use "@/styles/colors" as c;
+@use "@/styles/responsive" as r;
+
+main.main {
+  width: min(80%, 1024px);
+  margin-inline: auto;
+  display: flex;
+  flex-flow: column nowrap;
+
+  @include r.responsive("mobile") {
+    align-items: center;
+  }
+
+  > p {
+    font-size: var(--step--1);
+  }
+
+  > div {
+    margin-block: 1rem 0;
+    > h5 {
+      margin: 0;
+    }
+  }
+
+  > img {
+    max-width: 60%;
+    height: auto;
+  }
+}
