@@ -9,34 +9,7 @@ import Image from "next/image";
 import styles from "./product.module.scss";
 import { useRouter } from "next/navigation";
 import { getPlaceholderImage } from "@/lib/utils";
-
-export const ProductCardFields = graphql(/* gql */ `
-  fragment ProductCardFields on Product {
-    id
-    title
-    handle
-    description
-    productType
-    images(first: 5) {
-      nodes {
-        id
-        url
-      }
-    }
-    for_device_models: metafields(
-      identifiers: [{ namespace: "custom", key: "models" }]
-    ) {
-      references(first: 10) {
-        nodes {
-          __typename
-          ... on Metaobject {
-            ...MetaobjectDetails
-          }
-        }
-      }
-    }
-  }
-`);
+import type { ProductCardFields } from "@/lib/queries";
 
 interface ProductProps {
   product: DocumentType<typeof ProductCardFields>;
@@ -44,6 +17,7 @@ interface ProductProps {
 
 const Product = ({ product }: ProductProps) => {
   const router = useRouter();
+  console.log({ product });
   const pageRoute = `/product?h=${product.handle}`;
   const imageUrl =
     (product.images.nodes?.[0]?.url as string) ?? getPlaceholderImage(120, 120);

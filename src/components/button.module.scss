@@ -1,0 +1,16 @@
+@use "@/styles/colors" as c;
+button.button {
+  background-color: c.$denim;
+  color: c.$white;
+  border-radius: 6px;
+  margin: 6px;
+  border: none;
+  padding: 8px;
+  font-family: var(--font-mergelight);
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

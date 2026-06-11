@@ -7,8 +7,9 @@ div.carousel {
   gap: 0.8rem;
   margin-block: 0.6rem;
   padding: 0.2rem 0.6rem;
+  justify-content: flex-start;
 
-  >* {
-    user-select: none;
-  }
+  // > div.carou {
+  //   // display: contents;
+  // }
 }

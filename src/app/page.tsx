@@ -1,120 +1,81 @@
-import Product, { ProductCardFields } from "@/components/product";
-import type { Product as ProductType } from "@/types/gql/graphql";
+import Product from "@/components/product";
 import styles from "./index.module.scss";
 
 import { shopifyFetch } from "@/lib/shopify";
-import { graphql } from "@/types/gql";
+import { useFragment } from "@/types/gql";
 import Carousel from "@/components/carousel";
+import {
+  SparePartsAndConsumablesQuery,
+  DevicesAndKitsQuery,
+  ProductCardFields,
+} from "@/lib/queries";
 
-const sparePartsAndConsumablesQuery = graphql(/* gql */ `
-  query SparePartsAndConsumables {
-    products(first: 50, query: "product_type:Part OR product_type:Consumable") {
-      edges {
-        node {
-          id
-          ...ProductCardFields
-          for_device_models: metafields(
-            identifiers: [{ namespace: "custom", key: "models" }]
-          ) {
-            references(first: 10) {
-              edges {
-                node {
-                  __typename
-                  ... on Metaobject {
-                    id
-                    model_number: field(key: "name") {
-                      value
-                    }
-                    handle
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`);
-
-const devicesAndKitsQuery = graphql(/* gql */ `
-  query DevicesAndKits {
-    products(first: 50, query: "product_type:Device OR product_type:Kit") {
-      edges {
-        node {
-          id
-          ...ProductCardFields
-          models: metafields(
-            identifiers: [{ namespace: "custom", key: "models" }]
-          ) {
-            references(first: 10) {
-              edges {
-                node {
-                  __typename
-                  ... on Metaobject {
-                    id
-                    model_number: field(key: "name") {
-                      value
-                    }
-                    handle
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`);
 const getSparePartsAndConsumables = async () => {
   "use cache";
   const { products } = await shopifyFetch({
-    query: sparePartsAndConsumablesQuery,
+    query: SparePartsAndConsumablesQuery,
   });
-  return products;
+  return products.nodes.map((n) => useFragment(ProductCardFields, n));
 };
 
 const getDevicesAndKits = async () => {
   "use cache";
   const { products } = await shopifyFetch({
-    query: devicesAndKitsQuery,
+    query: DevicesAndKitsQuery,
   });
-  return products;
+  return products.nodes.map((n) => useFragment(ProductCardFields, n));
 };
 
 export default async function Home() {
   const sparePartsAndConsumables = await getSparePartsAndConsumables();
   const devicesAndKits = await getDevicesAndKits();
 
-  console.log({ devicesAndKits, sparePartsAndConsumables });
-
-  // const { productsByModels } = await getModelsAndProducts();
-  //
-  // console.log({ devicesWithModels, partsWithModels });
-
   return (
     <main className={styles.main}>
       <section>
         <div className={styles.card}>
-          <h3>Popular Items</h3>
-        </div>
-        <div className={styles.card}>
-          <h3>Devices {"&"} Kits</h3>
+          <h3>Devices</h3>
           <div>
-            {devicesAndKits.edges.slice(0, 4).map((edge) => (
-              <Product key={edge.node.id} product={edge.node} />
-            ))}
+            {devicesAndKits
+              .filter((d) => d.productType == "Device")
+              .slice(0, 4)
+              .map((item) => (
+                <Product key={item.id} product={item} />
+              ))}
           </div>
         </div>
         <div className={styles.card}>
-          <h3>Spare Parts {"&"} Consumables</h3>
-          <Carousel
-            items={sparePartsAndConsumables.edges.slice(0, 6).map((edge) => ({
-              element: <Product key={edge.node?.id} product={edge.node} />,
-            }))}
-          />
-          <div></div>
+          <h3>Parts</h3>
+          <div>
+            {sparePartsAndConsumables
+              .filter((d) => d.productType == "Part")
+              .slice(0, 4)
+              .map((item) => (
+                <Product key={item.id} product={item} />
+              ))}
+          </div>
+        </div>
+        <div className={styles.card}>
+          <h3>Kits</h3>
+          <div>
+            {devicesAndKits
+              .filter((d) => d.productType == "Kit")
+              .slice(0, 4)
+              .map((item) => (
+                <Product key={item.id} product={item} />
+              ))}
+          </div>
+        </div>
+        <div className={styles.card}>
+          <h3>Consumables</h3>
+          <div>
+            {sparePartsAndConsumables
+              .filter((d) => d.productType == "Consumable")
+              .slice(0, 4)
+              .map((item) => (
+                <Product key={item.id} product={item} />
+              ))}
+          </div>
         </div>
       </section>
     </main>

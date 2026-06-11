@@ -1,0 +1,84 @@
+Handle,Title,Body (HTML),Vendor,Product Category,Type,Tags,Published,Option1 Name,Option1 Value,Option1 Linked To,Option2 Name,Option2 Value,Option2 Linked To,Option3 Name,Option3 Value,Option3 Linked To,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare At Price,Variant Requires Shipping,Variant Taxable,Unit Price Total Measure,Unit Price Total Measure Unit,Unit Price Base Measure,Unit Price Base Measure Unit,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Accessories (product.metafields.custom.accessories),Applications (product.metafields.custom.applications),Certifications & Standards (product.metafields.custom.certifications_standards),Models (product.metafields.custom.models),Related Models (product.metafields.custom.related_models),Specifications (product.metafields.custom.specifications),Color (product.metafields.shopify.color-pattern),Material (product.metafields.shopify.material),Mounting type (product.metafields.shopify.mounting-type),Suitable space (product.metafields.shopify.suitable-space),Snowboard binding mount (product.metafields.test_data.binding_mount),Snowboard length (product.metafields.test_data.snowboard_length),Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Included / Canada,Price / Canada,Compare At Price / Canada,Status
+ameriwater-reverse-osmosis-sterile-processing,AmeriWater Reverse Osmosis Systems,"<p><strong>Optimized for Performance Efficiency and Compliance</strong></p>
+<p>The AmeriWater Reverse Osmosis (AWRO) System is specifically designed to support the needs of healthcare customers requiring high-purity water for ANSI/AAMI ST108 compliance. This compact system prioritizes ease of use and includes preventative measures for effective infection prevention for your sterile processing department.</p>
+<p>Product flow rate varies with temperature and inlet pressure. All models are rated at 77°F with feedwater of 1500 mg/l NaCl @ 55 PSI feed<br>pressure and pH of 7.5. As a safety factor use 60% of the rated capacity when sizing or add blend valve to temper the feedwater.</p>",AmeriWater,Business & Industrial > Medical,Device,"Central Sterile, Reverse Osmosis, RO",true,Models,awro19200,product.metafields.custom.models,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",https://cdn.shopify.com/s/files/1/0601/9514/3813/files/AWRO_2400_Front-768x768_8e5deb36-f0df-46e6-af4d-00320ef4c91b.png?v=1779142691,1,"",false,,,ro-membranes; carbon-block-filter-cartridges; chlorine-organic-filter-cartridge-for-mro1; americlean-ro-membrane-cleaners; blend-valve; anti-scalant-for-hardness-removal; chemical-feed-systems,,"ETL Listed, Conforms to UL Std 61010-1
+Certified CAN/CSA C22.2 No. 61010-1
+ISO13485 Registered Device",awro19200; awro-1200; awro2400; awro4800; awro7200; awro9600; awro12000; awro16800; awro14400,,"Pressure Min/Max PSI: 30/80
+Temperature: 50 – 90°F
+Projected Rejection: 95% – 98%
+Recovery: 50% – 75%
+Feed Water Temperature: 77°F (Blend Valve Recommended)
+Feed Water Hardness as CaCO3: 12 GPG
+Feed water Silca: 40 PPM
+Feed Water Turbidity: <1 NTU
+Feed Water pH Range: 6.0 to 8.5
+Feedwater Iron: 0.1 PPM",,,,,,,,lb,,,,,,active
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro-1200,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro2400,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro4800,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro7200,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro9600,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro12000,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro16800,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+ameriwater-reverse-osmosis-sterile-processing,,,,,,,,,awro14400,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+blend-valve,Blend Valve,<p><span>AmeriWater’s featured blend valve tempers feed water to achieve the perfect balanced temperature for your system’s requirements.</span></p>,AmeriWater,Hardware > Plumbing > Plumbing Fittings & Supports > Plumbing Regulators > Temperature Regulators,Part,"",true,Title,Default Title,,,,,,,,,0.0,shopify,deny,manual,0.00,,true,true,,,,,"",https://cdn.shopify.com/s/files/1/0601/9514/3813/files/Blend-Valve-768x768.jpg?v=1779160793,1,"",false,,,,,,awro19200; awro-1200; awro2400; awro4800; awro7200; awro9600; awro12000; awro14400; awro16800; 00-spdver-800; 00-spdver-2400,model-relation-16i6wpf7,,,,,,,,,lb,,,,,,active
+part-45-0005-valve-pressure-relief-5-in-out-pvc-1-15-psi,"Part #45-0005 - VALVE, PRESSURE RELIEF, .5"" IN/OUT, PVC, 1-15 PSI","<p>VALVE, PRESSURE RELIEF, .5"" IN/OUT, PVC, 1-15 PSI</p>",AmeriWater,,Part,parts,true,Title,Default Title,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0601/9514/3813/files/800_d5dce64b-5d1b-410c-ae86-0b6ccdfc3015.jpg?v=1779967248,1,"",false,,,,,,98-2008,,,,,,,,,,lb,,,,,,active
+part-41531812-val-ball-5-tu-pvc80,"Part #41531812 - VAL, BALL, .5, TU, PVC80","<p>VAL, BALL, .5, TU, PVC80</p>",AmeriWater,,Part,parts,true,Title,Default Title,,,,,,,,,0.0,,deny,manual,0.00,,true,true,,,,,,https://cdn.shopify.com/s/files/1/0601/9514/3813/files/800_62207f29-b496-4443-9590-87b1e98c3235.jpg?v=1779967252,1,"",false,,,,,,98-2008,,,,,,,,,,lb,,,,,,active
+sediment-filter-cartridges,Sediment Filter Cartridges,"<p>AmeriWater utilizes the best in sediment filter cartridges for our water filtration equipment.</p>
+<h4>Spun-bonded Sediment Filter Cartridges</h4>
+<p>The spun-bonded cartridges are manufactured from 100% polypropylene filters. The fibers have been carefully spun together to form a true gradient density from outer to inner surfaces.</p>
+<p>They are designed for purity. The filters will not import taste, odor, color or foam. Additionally, the construction provides superior chemical resistance and is not prone to bacterial attack.</p>
+<p>Temperature Rating 40ºF to 145ºF.</p>",test-store,Hardware > Plumbing > Water Dispensing & Filtration > Water Filtration Accessories > Water Filter Cartridges,"","",true,Title,Default Title,,,,,,,,,0.0,shopify,deny,manual,0.00,,true,true,,,,,"",https://cdn.shopify.com/s/files/1/0601/9514/3813/files/PENTAIR-POLYPROPYLENE-FILTER-CARTRIDGE-768x768.png?v=1780236436,1,"",false,,,,,,,,,white,polypropylene-pp,,,,,,lb,,,,,,active
+carbon-block-filter-cartridges-1,Carbon Block Filter Cartridges,"<p>AmeriWater’s Carbon Block Filter Cartridges reduce natural organic contaminants in feed water.</p>
+<h4>Chlorplus Chloramine Filter Cartridges</h4>
+<p>Chloramine removal cartridge is ideal for portable RO and DI dialysis water treatment. Each cartridge features a special blended carbon block design rated at one-micron filtration, effectively reducing chloramine levels in the feed water.</p>
+<h5>Features</h5>
+<ul>
+<li>Dual Open End</li>
+<li>Polypropylene End Caps</li>
+<li>Buna-N Gaskets</li>
+<li>Temperature Rating 40º F to 125º F</li>
+</ul>
+<table id=""tablepress-1"" class=""tablepress tablepress-id-1 tbody-has-connected-cells"">
+<thead>
+<tr class=""row-1"">
+<th class=""column-1"">Model</th>
+<th class=""column-2"">Cartridge Size In.</th>
+<th class=""column-3"">Flow Rate</th>
+</tr>
+</thead>
+<tbody class=""row-striping row-hover"">
+<tr class=""row-2"">
+<td class=""column-1"">20-5011</td>
+<td class=""column-2"">2.5 x 10</td>
+<td class=""column-3"">1,000 gallons at 1.0 gpm</td>
+</tr>
+<tr class=""row-3"">
+<td class=""column-1"">20-5012</td>
+<td class=""column-2"">2.5 x 20</td>
+<td class=""column-3"">2,000 gallons at 2.0 gpm</td>
+</tr>
+<tr class=""row-4"">
+<td class=""column-1"">20-5013</td>
+<td class=""column-2"">4.5 x 10</td>
+<td class=""column-3"">3,500 gallons at 2.0 gpm</td>
+</tr>
+<tr class=""row-5"">
+<td class=""column-1"">20-5014</td>
+<td class=""column-2"">4.5 x 20</td>
+<td class=""column-3"">7,500 gallons at 4.0 gpm</td>
+</tr>
+<tr class=""row-6"">
+<td colspan=""3"" class=""column-1"">Estimated capacity tested at given flow rate using 3 ppm chloramine to 0.5 ppm breakthrough.</td>
+</tr>
+</tbody>
+</table>
+<h4>Chlorine/Organic Filter Cartridge for MRO1</h4>
+<p>Powdered activated carbon is extruded into a filter block with superior filtration and adsorption performance compared to GAC. The filter cartridges are built with pre-filtration wraps, polypropylene end caps and Buna-N gaskets in a double open end (DOE) design for excellent housing fit. The micron filtration efficiency is 85% of the rated particle size.</p>
+<h5>Operation Limits</h5>
+<p><strong>Typical Operating Pressure</strong>: 20-100 PSI<br><strong>Temperature</strong><span> </span><strong>Range</strong>: 40°F to 180°F<br><strong>pH,</strong><span> </span><strong>Operating</strong><span> </span><strong>Optimum</strong>: 6-9<br><strong>Product</strong><span> </span><strong>Permeate</strong><span> </span><strong>Flow</strong>: Not to Exceed Specification<br><strong>Feed NTU</strong>: &lt; 1</p>
+<h5>Model</h5>
+<p><strong>20-5102</strong>: 10 µm micron rating, 2½inc x 20inc, 8 initial flow GPM, 20-5102-6 model case, 6 per case</p>",AmeriWater,Hardware > Plumbing > Water Dispensing & Filtration > Water Filtration Accessories > Water Filter Cartridges,Consumable,"",true,Models,20-5011,product.metafields.custom.models,,,,,,,,0.0,shopify,deny,manual,0.00,,true,true,,,,,"",https://cdn.shopify.com/s/files/1/0601/9514/3813/files/carbon-block-cartridges-768x768_8ab815ad-c89b-42fc-941c-037f06331d02.jpg?v=1780240669,1,"",false,,,,,,20-5011; 20-5012; 20-5013; 20-5014,,,white,polypropylene-pp; rubber,,,,,,lb,,,,,,active
+carbon-block-filter-cartridges-1,,,,,,,,,20-5012,,,,,,,,,0.0,shopify,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+carbon-block-filter-cartridges-1,,,,,,,,,20-5013,,,,,,,,,0.0,shopify,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,
+carbon-block-filter-cartridges-1,,,,,,,,,20-5014,,,,,,,,,0.0,shopify,deny,manual,0.00,,true,true,,,,,"",,,,,,,,,,,,,,,,,,,,lb,,,,,,

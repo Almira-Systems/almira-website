@@ -1,11 +1,26 @@
-// import { parse } from "csv-parse";
-import fs, { promises as fsPromises } from "fs";
+import { promises as fsPromises } from "fs";
 import { z } from "zod";
 import Papa from "papaparse";
 import exceljs from "exceljs";
+import { useFragment, graphql } from "../types/gql";
+import { shopifyFetch } from "./shopify";
+import dotenv from "dotenv";
+import { ProductCardFields } from "@/components/product";
+import type { ProductCardFieldsFragment } from "@/types/gql/graphql";
+import { generateString } from "./utils";
+
+dotenv.config({ path: ".env" });
 
 const CURRENT_DIR = process.cwd();
 const CSV_DIR = `${CURRENT_DIR}/public/shopify_csv_data`;
+
+const toHandle = (val: string) => {
+  return val
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+};
 
 const shopifyBoolean = z
   .preprocess((val) => {
@@ -25,14 +40,18 @@ const shopifyNumber = z.preprocess((val) => {
   return val;
 }, z.coerce.number().optional());
 
-const DataSchema = z.object({
+const ProductImportSchema = z.object({
   "Part #": z.string(),
   Description: z.string(),
   "Device Model #(s)": z.string(),
+  "Related Parts": z.string(),
+  "Related Devices": z.string(),
 });
 
-const metafieldKey =
+const modelMFKey =
   "Metafield: custom.models [list.metaobject_reference][handle]";
+const relatedModelMFKey =
+  "Metafield: custom.related_models [list.metaobject_reference][handle]";
 const ShopifyProductCsvSchema = z.object({
   // Product Identity & Core details
   Title: z.string().optional(), // Can be empty on variant rows
@@ -46,7 +65,8 @@ const ShopifyProductCsvSchema = z.object({
   Published: shopifyBoolean.default(true),
   "Product category": z.string().optional(),
 
-  [metafieldKey]: z.string().optional(),
+  [modelMFKey]: z.string().optional(),
+  [relatedModelMFKey]: z.string().optional(),
 
   "Image Src": z.string().url().or(z.literal("")).optional(),
   "Image position": shopifyNumber,
@@ -55,7 +75,21 @@ const ShopifyProductCsvSchema = z.object({
   Status: z.enum(["active", "draft", "archived"]).default("active"),
 });
 
-async function parseCSVToData() {
+const getRelatedDevicesQuery = graphql(/* gql */ `
+  query RelatedDevices($modelFilters: [ProductFilter!]) {
+    collection(handle: "all") {
+      products(first: 20, filters: $modelFilters) {
+        nodes {
+          id
+          title
+          ...ProductCardFields
+        }
+      }
+    }
+  }
+`);
+
+async function parsePartsImportData(workbook: exceljs.Workbook) {
   const partsFile = await fsPromises.readFile(`${CSV_DIR}/parts.csv`, "utf-8");
 
   const partsData = Papa.parse(partsFile, {
@@ -63,16 +97,14 @@ async function parseCSVToData() {
     skipEmptyLines: true,
   });
 
-  const parsedParts = DataSchema.array().safeParse(partsData.data);
+  const parsedParts = ProductImportSchema.array().safeParse(partsData.data);
 
   if (!parsedParts.success) {
     console.error(parsedParts.error);
     throw new Error(parsedParts.error as any);
   }
-
-  const workbook = new exceljs.Workbook();
-  const partsSheet = workbook.addWorksheet("Parts");
-  const metaSheet = workbook.addWorksheet("Metaobjects");
+  const partsSheet =
+    workbook.getWorksheet("Products") || workbook.addWorksheet("Products");
 
   partsSheet.columns = Object.entries(ShopifyProductCsvSchema.shape).map(
     ([key]) => ({
@@ -81,6 +113,155 @@ async function parseCSVToData() {
     }),
   );
 
+  const relatedDevices: {
+    devNums: string[];
+    partNum: string;
+  }[] = [];
+  const descSlice = 24;
+  for await (const part of parsedParts.data) {
+    const newObj = await ShopifyProductCsvSchema.safeParseAsync({
+      Title: `Part #${part["Part #"]} - ${part.Description.slice(0, descSlice)}`,
+      "URL handle": toHandle(
+        `Part #${part["Part #"]} - ${part.Description.slice(0, descSlice)}`,
+      ),
+      "Body (HTML)": part.Description,
+      "Product Category": "Business & Industrial > Medical",
+      Type: "Part",
+      Tags: "parts",
+      "Image Src": `https://picsum.photos/seed/${encodeURIComponent(part["Part #"])}/800/800.jpg`,
+      Status: "active",
+      [modelMFKey]: part["Device Model #(s)"]
+        .split(",")
+        .map((s) => `${toHandle(s.trim())}`)
+        .join("; "),
+      [relatedModelMFKey]: part["Related Devices"]
+        .split(",")
+        .map((s) => `${toHandle(s.trim())}`)
+        .join("; "),
+    });
+    if (!newObj.success) {
+      console.error(newObj.error);
+      continue;
+    }
+    partsSheet.addRow(newObj.data);
+    relatedDevices.push({
+      devNums: part["Related Devices"].split(",").map((s) => s.trim()),
+      partNum: part["Part #"],
+      // type: 'PART'
+    });
+  }
+
+  const relatedDevNums = new Set<string>(
+    relatedDevices.map((r) => r.devNums).flat(),
+  );
+
+  const nums = Array.from(relatedDevNums);
+  const devicesRes = await shopifyFetch({
+    query: getRelatedDevicesQuery,
+    variables: {
+      modelFilters: (nums.map((devNum) => ({
+        productMetafield: {
+          namespace: "custom",
+          key: "models",
+          value: devNum,
+        },
+      })) ?? []) as any,
+    },
+  });
+
+  const devices = useFragment(
+    ProductCardFields,
+    devicesRes.collection?.products.nodes,
+  );
+
+  return devices ?? [];
+}
+
+const DeviceImportSchema = z.object({
+  "Device Name": z.string(),
+  Description: z.string(),
+  "Model #(s)": z.string(),
+});
+
+async function parseDevicesImportData(workbook: exceljs.Workbook) {
+  const devicesFile = await fsPromises.readFile(
+    `${CSV_DIR}/devices.csv`,
+    "utf-8",
+  );
+
+  const devicesData = Papa.parse(devicesFile, {
+    header: true,
+    skipEmptyLines: true,
+  });
+
+  const parsedDevices = DeviceImportSchema.array().safeParse(devicesData.data);
+
+  if (!parsedDevices.success) {
+    throw new Error(parsedDevices.error as any);
+  }
+
+  const productSheet =
+    workbook.getWorksheet("Products") || workbook.addWorksheet("Products");
+
+  productSheet.columns = Object.entries(ShopifyProductCsvSchema.shape).map(
+    ([key]) => ({
+      header: key,
+      key,
+    }),
+  );
+
+  const titleSlice = 24;
+  const modelsToAdd = new Set<string>();
+  for await (const device of parsedDevices.data) {
+    const newObj = await ShopifyProductCsvSchema.safeParseAsync({
+      Title: device["Device Name"],
+      "URL handle": toHandle(device["Device Name"].slice(0, titleSlice)),
+      "Body (HTML)": device.Description,
+      "Product Category": "Business & Industrial > Medical",
+      Type: "Device",
+      Tags: "devices",
+      "Image Src": `https://picsum.photos/seed/${encodeURIComponent(device["Device Name"])}/800/800.jpg`,
+      Status: "active",
+      [modelMFKey]: device["Model #(s)"]
+        .split(",")
+        .map((s) => {
+          const trimmed = s.trim();
+          modelsToAdd.add(trimmed);
+          return `${toHandle(trimmed)}`;
+        })
+        .join("; "),
+    });
+    if (!newObj.success) {
+      console.error(newObj.error);
+      continue;
+    }
+    productSheet.addRow(newObj.data);
+  }
+
+  return modelsToAdd;
+}
+
+const GetDevicesByModelsQuery = graphql(/* gql */ `
+  query GetDevicesByModels($modelNumbers: [String!]!) {
+    products(first: 100, query: "product_type:Device") {
+      nodes {
+        id
+        title
+        handle
+      }
+    }
+  }
+`);
+
+async function defineMetaobjects(
+  modelsToAdd: Set<string>,
+  relatedDevices: ProductCardFieldsFragment[],
+  w: exceljs.Workbook,
+) {
+  // models
+  // related models
+  const metaSheet =
+    w.getWorksheet("Metaobjects") || w.addWorksheet("Metaobjects");
   metaSheet.columns = [
     { header: "Command", key: "command" },
     { header: "Type", key: "type" },
@@ -88,70 +269,52 @@ async function parseCSVToData() {
     { header: "Handle", key: "handle" },
     { header: "Field", key: "field" },
     { header: "Value", key: "value" },
-    // { header: "Field: name", key: "name_field" },
-    // { header: "Field: model_number", key: "field_model_number" },
     { header: "Definition: Handle", key: "defHandle" },
+    { header: "Definition: Name", key: "defName" },
   ];
 
-  const modelNums = new Set();
-  for await (const part of parsedParts.data) {
-    let add = false;
-    const newObj = await ShopifyProductCsvSchema.safeParseAsync({
-      Title: `Part #${part["Part #"]} - ${part.Description}`,
-      "Body (HTML)": part.Description,
-      "Product Category": "Business & Industrial > Medical",
-      Type: "Part",
-      Tags: "parts",
-      "Image Src": `https://picsum.photos/seed/${encodeURIComponent(part["Part #"])}/800/800.jpg`,
-      Status: "active",
-      [metafieldKey]: part["Device Model #(s)"]
-        .split(",")
-        .map((s) => `${s.trim()}`)
-        .join("; "),
+  for (const model of modelsToAdd) {
+    metaSheet.addRow({
+      command: "MERGE",
+      handle: `${toHandle(model)}`,
+      defHandle: `model`,
+      defName: "Model",
+      field: "name",
+      value: model,
     });
-
-    if (newObj.success) {
-      if (newObj.data[metafieldKey]?.includes("AWRO")) {
-        add = true;
-      }
-
-      if (!add) {
-        continue;
-      }
-      partsSheet.addRow(newObj.data);
-      if (newObj.data[metafieldKey]) {
-        const metaParts = newObj.data[metafieldKey].split("; ");
-        for await (const model_number of metaParts) {
-          if (modelNums.has(model_number)) {
-            continue;
-          }
-          modelNums.add(model_number);
-          metaSheet.addRow({
-            command: "MERGE",
-            type: "model",
-            handle: `${model_number}`,
-            defHandle: `model`,
-            field: "name",
-            value: model_number,
-          });
-        }
-      }
-      partsSheet.addRow(newObj.data);
-    } else {
-      console.error(newObj.error);
-    }
   }
 
-  return workbook;
-}
-
-async function writeShopifyCSV() {
-  const workbook = await parseCSVToData();
-  await workbook.xlsx.writeFile(`${CSV_DIR}/shopify_parts.xlsx`);
+  for (const device of relatedDevices) {
+    const handleSuffix = generateString(6);
+    const handle = `${toHandle(`model-relation-${handleSuffix}`)}`;
+    metaSheet.addRow({
+      command: "MERGE",
+      type: "model_relation",
+      handle,
+      defHandle: `model_relation`,
+      defName: "Model Relation",
+      field: "model",
+      value: `model.${device.handle}`,
+    });
+    metaSheet.addRow({
+      command: "MERGE",
+      type: "model_relation",
+      handle,
+      defHandle: `model_relation`,
+      defName: "Model Relation",
+      field: "type",
+      value: "DEVICE",
+    });
+  }
 }
 
 async function main(): Promise<void> {
-  await writeShopifyCSV();
+  const workbook = new exceljs.Workbook();
+  const relatedDevices = await parsePartsImportData(workbook);
+  const modelsToAdd = await parseDevicesImportData(workbook);
+  await defineMetaobjects(modelsToAdd, relatedDevices, workbook);
+
+  await workbook.xlsx.writeFile(`${CSV_DIR}/shopify_parts.xlsx`);
 }
 
 main()

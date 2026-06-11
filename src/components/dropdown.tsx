@@ -1,85 +1,97 @@
 "use client";
 
-import {
-  cloneElement,
-  useId,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type ComponentProps,
-  type ReactElement,
-} from "react";
+import { Menu } from "@base-ui/react/menu";
+import { useFloating, shift, autoUpdate } from "@floating-ui/react";
+import { useId, type ComponentProps, type ReactElement } from "react";
 import styles from "./dropdown.module.scss";
-import { useMounted } from "@/lib/hooks";
+import { c } from "@/lib/utils";
 
 interface DropdownOption {
-  label: string;
+  label: React.ReactNode;
   value: string;
+  link?: boolean;
+  href?: string;
   onClick?: () => void;
+  wrap?: boolean;
+  truncate?: boolean;
 }
 
 interface DropdownProps {
   options: DropdownOption[];
-  triggerId: string;
+  trigger: ReactElement<ComponentProps<"button">>;
+  separators?: boolean;
+  triggerId?: string;
+  sticky?: boolean;
   className?: string;
   id?: string;
-  trigger?: ReactElement<ComponentProps<"button">>;
+  positionMethod?: "absolute" | "fixed";
 }
 
 const Dropdown = ({
   options,
-  triggerId,
   id,
   className,
   trigger,
+  positionMethod = "absolute",
+  sticky = false,
 }: DropdownProps) => {
   const dropdownId = useId();
   if (!id) id = dropdownId;
-  const dropdownRef = useRef<HTMLUListElement>(null);
 
-  const [open, setOpen] = useState(false);
-  const mounted = useMounted();
-  const clonedTrigger = cloneElement(trigger!, {
-    id: triggerId,
-    onClick: () => {
-      if ("onClick" in (trigger?.props as any)) {
-        (trigger?.props as any).onClick();
-      }
-      setOpen(!open);
-    },
-    "aria-expanded": open,
-    "aria-haspopup": true,
+  const { refs, floatingStyles } = useFloating({
+    placement: "bottom",
+    middleware: [
+      shift({
+        padding: 8,
+      }),
+    ],
+    whileElementsMounted: autoUpdate,
   });
 
-  // useLayoutEffect(() => {
-  //   const triggerElement = document.getElementById(
-  //     triggerId,
-  //   ) as HTMLButtonElement;
-  //
-  //   if (triggerElement && mounted && dropdownRef.current) {
-  //     triggerElement.popoverTargetElement = dropdownRef.current;
-  //     triggerElement.popoverTargetAction = "toggle";
-  //   }
-  // }, [trigger, mounted, dropdownRef.current]);
-
   return (
-    <div className={styles.dropdown_container}>
-      {clonedTrigger}
-      {open ? (
-        <ul
-          popover="manual"
-          ref={dropdownRef}
-          className={`${styles.dropdown} ${className}`}
-          id={id}
+    <Menu.Root modal={false}>
+      <Menu.Trigger className={styles.trigger}>{trigger}</Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner
+          className={styles.dropdown_container}
+          sticky={sticky}
+          positionMethod={positionMethod}
         >
-          {options.map((opt) => (
-            <li data-value={opt.value} key={opt.value} onClick={opt.onClick}>
-              {opt.label}
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
+          <div ref={refs.setReference} />
+          <Menu.Popup
+            id={id}
+            ref={refs.setFloating}
+            className={`${styles.dropdown} ${className}`}
+            style={floatingStyles}
+          >
+            {options.map(({ truncate = false, wrap = true, ...opt }) => {
+              const itemOnClick = () => {
+                if (opt.onClick) {
+                  opt.onClick();
+                }
+              };
+              const Item = opt.link ? Menu.LinkItem : Menu.Item;
+              const classes = [
+                styles.dropdown_item,
+                truncate ? styles.truncate : null,
+                wrap ? styles.wrap : null,
+              ];
+              return (
+                <Item
+                  key={opt.value}
+                  onClick={itemOnClick}
+                  closeOnClick={false}
+                  className={c(...classes)}
+                  href={(opt.href?.length ?? 0) > 0 ? opt.href : null}
+                >
+                  {opt.label}
+                </Item>
+              );
+            })}
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
   );
 };
 

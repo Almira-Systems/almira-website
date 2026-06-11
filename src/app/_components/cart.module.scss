@@ -1,0 +1,96 @@
+@use "@/styles/colors" as c;
+div.cart_area {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mergelight);
+  font-size: var(--step--1);
+  position: relative;
+
+  button {
+    color: c.$white;
+
+    gap: 0.4rem;
+    display: inline-flex;
+    align-items: bottom;
+
+    align-content: bottom;
+
+    > svg {
+      width: 0.85rem;
+      height: auto;
+    }
+
+    > p {
+      margin: 0;
+    }
+  }
+}
+
+span.cart_item {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  // gap: 0.4rem;
+
+  > button {
+    * {
+      margin: 0;
+    }
+
+    border-radius: 50%;
+    width: auto;
+    display: inline-flex;
+    // padding: 0;
+    //
+    background-color: c.$denim;
+    color: c.$white;
+
+    padding: 6px;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    > svg {
+      $size: 0.6em;
+      width: $size;
+      height: $size;
+      stroke-width: 3px;
+
+      // height: min-content;
+      //
+      // height: 1em;
+    }
+  }
+
+  p {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 42ch;
+  }
+}
+
+footer.cart_footer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-top: 1px solid c.$light_gray;
+  padding-top: 0.4rem;
+
+  > span {
+    display: inline-flex;
+    flex-wrap: nowrap;
+  }
+
+  p,
+  h2 {
+    margin: 0;
+  }
+}

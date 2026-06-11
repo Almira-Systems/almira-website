@@ -11,7 +11,7 @@
       "maxTypeScale": 1.25,
       "positiveSteps": 3,
       "negativeSteps": 3,
-      /* Optional params */ "relativeTo": "viewport",
+      /* Optional params */ "relativeTo": "container",
       "prefix": "step-",
     )
   );
@@ -36,6 +36,11 @@ body {
   font-family: var(--font-open-sans);
   font-size: var(--step-0);
   line-height: 1.5;
+  container-type: inline-size;
+
+  isolation: isolate;
+  position: relative;
+  // scrollbar-gutter: initial !important;
 }
 
 a {

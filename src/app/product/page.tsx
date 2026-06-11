@@ -1,13 +1,17 @@
 import { shopifyFetch } from "@/lib/shopify";
 import { graphql, useFragment, type DocumentType } from "@/types/gql";
 import { Suspense } from "react";
-import Product, { ProductCardFields } from "@/components/product";
-import Image from "next/image";
+import Product from "@/components/product";
 import styles from "./product_page.module.scss";
 import Carousel from "@/components/carousel";
-import { getPlaceholderImage } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { MetaobjectFields } from "@/lib/gql";
+import ProductInfo from "./_components/product_info";
+import {
+  GetProductByIdQuery,
+  GetRelatedDevicesQuery,
+  ProductCardFields,
+} from "@/lib/queries";
 
 interface ProductPageProps {
   searchParams: Promise<{
@@ -15,128 +19,122 @@ interface ProductPageProps {
   }>;
 }
 
-const getProductByIdQuery = graphql(/* gql */ `
-  query ProductById($handle: String!) {
-    product(handle: $handle) {
-      id
-      title
-      ...ProductCardFields
-    }
-  }
-`);
-
-const getRelatedDevicesQuery = graphql(/* gql */ `
-  query RelatedDevices($searchQuery: String!) {
-    products(first: 12, query: $searchQuery) {
-      nodes {
-        id
-        title
-        ...ProductCardFields
-      }
-    }
-  }
-`);
-
 const getRelatedParts = async (
-  product: DocumentType<typeof ProductCardFields>,
+  productModels: DocumentType<typeof MetaobjectFields>[],
 ) => {
-  console.log({
-    product,
-
-    t: product?.for_device_models,
-  });
-  const models = product?.for_device_models
-    ?.map((m) => m?.references?.nodes)
-    .flat()
-    ?.map((m) => {
-      if (m?.__typename === "Metaobject") {
-        return useFragment(MetaobjectFields, m);
-      }
-    });
-  const searchQuery = `-handle:${product.handle}`;
-  console.log({ searchQuery });
+  "use cache";
+  const searchQuery = `(product_type:Part OR product_type:Consumable OR product_type:Service)`;
   const { products } = await shopifyFetch({
-    query: getRelatedDevicesQuery,
+    query: GetRelatedDevicesQuery,
     variables: {
       searchQuery: searchQuery,
     },
   });
   const parsedProducts = useFragment(ProductCardFields, products.nodes);
-  return parsedProducts;
+  const productsToShow = [];
+  for (const p of parsedProducts) {
+    if (p.related_products.filter((p) => p).length > 0) {
+      const relatedDeviceModelNums = p.related_products.flatMap((m) =>
+        useFragment(
+          MetaobjectFields,
+          m!.references!.nodes.filter((n) => n.__typename === "Metaobject"),
+        ).map((m) => m.modelNumber?.value),
+      );
+      if (
+        relatedDeviceModelNums.some((m) =>
+          productModels.map((m2) => m2.modelNumber?.value).includes(m),
+        )
+      ) {
+        productsToShow.push(p);
+      }
+    }
+  }
+  return productsToShow;
 };
 const getRelatedDevices = async (
-  product: DocumentType<typeof ProductCardFields>,
+  relatedModels: DocumentType<typeof MetaobjectFields>[],
 ) => {
-  console.log({
-    product,
-  });
-  const models = product?.for_device_models
-    ?.map((m) => m?.references?.nodes)
-    .flat()
-    ?.map((m) => {
-      if (m?.__typename === "Metaobject") {
-        return useFragment(MetaobjectFields, m);
-      }
-    });
+  "use cache";
+  const searchQuery = `(product_type:Device OR product_type:Kit)`;
   const { products } = await shopifyFetch({
-    query: getRelatedDevicesQuery,
+    query: GetRelatedDevicesQuery,
     variables: {
-      searchQuery: `metafields.custom.models:(${models.map((m) => m?.id).join(" OR ")}) AND NOT handle:${product.handle} AND product_type:Device OR product_type:Kit`,
+      searchQuery: searchQuery,
     },
   });
   const parsedProducts = useFragment(ProductCardFields, products.nodes);
-  return parsedProducts;
+  const productsToShow = [];
+  for (const p of parsedProducts) {
+    const relatedDeviceModelNums = relatedModels.map(
+      (m) => m.modelNumber?.value,
+    );
+    const parsedModels = p.models
+      .filter((m) => m)
+      .flatMap((m) =>
+        m?.references?.nodes.filter((n) => n.__typename === "Metaobject"),
+      )
+      .map((m) => useFragment(MetaobjectFields, m));
+    if (
+      relatedDeviceModelNums.some((m) =>
+        parsedModels.map((m2) => m2?.modelNumber?.value).includes(m),
+      )
+    ) {
+      productsToShow.push(p);
+    }
+  }
+  return productsToShow;
 };
 
 const getProductByHandle = async (handle: string) => {
+  "use cache";
   const { product } = await shopifyFetch({
-    query: getProductByIdQuery,
+    query: GetProductByIdQuery,
     variables: { handle },
   });
   const parsedProduct = useFragment(ProductCardFields, product);
+  if (!parsedProduct) return { product: null, forDeviceModels: [] };
+  const productModels = [];
+  const relatedModels = [];
 
-  const models = [];
-  console.log({ parsedProduct });
-  for (const m of parsedProduct?.for_device_models
-    .map((d) => d?.references?.nodes)
-    .flat() ?? []) {
-    if (m?.__typename === "Metaobject") {
-      const resolvedModel = useFragment(MetaobjectFields, m);
-      models.push(resolvedModel);
+  for (const model of parsedProduct.models.flatMap(
+    (m) => m?.references?.nodes ?? [],
+  )) {
+    if (model.__typename === "Metaobject") {
+      const resolvedModel = useFragment(MetaobjectFields, model);
+      productModels.push(resolvedModel);
+    }
+  }
+  for (const model of parsedProduct.related_products.flatMap(
+    (m) => m?.references?.nodes ?? [],
+  )) {
+    if (model.__typename === "Metaobject") {
+      const resolvedModel = useFragment(MetaobjectFields, model);
+      relatedModels.push(resolvedModel);
     }
   }
 
-  return { product: parsedProduct, forDeviceModels: models };
+  return { product: parsedProduct, productModels, relatedModels };
 };
 
 const ProductPage = async ({ searchParams }: ProductPageProps) => {
   const { h } = await searchParams;
-  const { product } = await getProductByHandle(h);
+  const { product, productModels, relatedModels } = await getProductByHandle(h);
   if (!product) {
     notFound();
   }
-  const relatedDevices = await getRelatedDevices(product);
-  const relatedParts = await getRelatedParts(product);
-
-  const imageUrl =
-    (product?.images.nodes?.[0]?.url as string) ??
-    getPlaceholderImage(360, 360);
-
-  console.log({ relatedDevices, relatedParts });
+  const relatedDevices = await getRelatedDevices(relatedModels);
+  const relatedParts = await getRelatedParts(productModels);
 
   return (
     <Suspense>
       <main className={styles.main}>
-        <h3>{product.title}</h3>
-        <Image
-          src={imageUrl}
-          alt={`${product.title} image`}
-          width={360}
-          height={360}
-        />
-        <p>{product.description}</p>
-        <div>
-          {["Part", "Consumable"].includes(product.productType) ? (
+        <header>
+          <h4>{product.title}</h4>
+          <p>{product.description}</p>
+        </header>
+        <ProductInfo product={product} />
+        <div className={styles.related}>
+          {["Part", "Consumable", "Service"].includes(product.productType) ? (
             <>
               <h5>Devices that use this product</h5>
               <Carousel

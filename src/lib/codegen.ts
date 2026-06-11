@@ -36,6 +36,9 @@ const config: CodegenConfig = {
     "./src/types/gql/": {
       preset: "client",
       // config: { debug: true },
+      config: {
+        dedupeFragments: true,
+      },
       // plugins: [],
       plugins: ["typescript", "typescript-operations"],
     },

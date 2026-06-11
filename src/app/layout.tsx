@@ -1,9 +1,12 @@
 import Header from "@/components/header";
 import "@/styles/globals.scss";
-
 import { type Metadata } from "next";
 import { Geist, Open_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { Suspense } from "react";
+import CartWrapper from "./_components/cart_wrapper";
+import { Provider } from "jotai";
+import { QueryClientWrapper } from "./_components/query_client";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -20,16 +23,33 @@ const openSans = Open_Sans({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+const mergeLight = localFont({
+  variable: "--font-mergelight",
+  src: "../../public/fonts/mergelight/mergelight.otf",
+});
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={[geist.className, openSans.variable].join(" ")}>
-        <Suspense>
-          <Header />
-          {children}
-        </Suspense>
+      <body
+        className={[
+          geist.className,
+          openSans.variable,
+          mergeLight.variable,
+        ].join(" ")}
+      >
+        <QueryClientWrapper>
+          <Provider>
+            <Suspense fallback={<>loading</>}>
+              <CartWrapper>
+                <Header />
+                {children}
+              </CartWrapper>
+            </Suspense>
+          </Provider>
+        </QueryClientWrapper>
       </body>
     </html>
   );

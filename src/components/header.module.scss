@@ -1,5 +1,6 @@
 @use "@/styles/colors" as c;
 @use "@/styles/responsive" as r;
+
 header.header {
   display: flex;
   flex-flow: column nowrap;
@@ -11,69 +12,81 @@ header.header {
 
   font-size: var(--step-0);
 
-  @include r.responsive("mobile") {
-  }
+  @include r.responsive("mobile") {}
 
-  > section {
+  >section {
     align-items: center;
     padding: 0.6rem 2.4rem;
     display: flex;
     flex-grow: 1;
     justify-content: space-between;
     font-size: var(--step--2);
+
     @include r.responsive("mobile") {
       justify-content: center;
     }
 
-    > img {
-      width: 50%;
-      height: auto;
+    >a {
       @include r.responsive("mobile") {
-        width: 80%;
+        display: flex;
+        place-content: center;
+      }
+
+      >img {
+        display: block;
+        // max-width: 100%;
+        width: 70%;
+        height: auto;
+
+        @include r.responsive("mobile") {
+          // width: 80%;
+        }
       }
     }
 
-    > div {
+    >div {
       display: flex;
       flex-flow: column wrap;
+
       @include r.responsive("mobile") {
         display: none;
       }
 
-      > div.buttons {
+      >div.buttons {
         display: flex;
 
         align-content: center;
         justify-content: flex-end;
         gap: 0.4rem;
 
-        > button {
+        >button {
           display: flex;
           padding: 0.4rem;
           border: 0;
           background-color: c.$light_gray;
           height: min-content;
 
-          > svg {
+          >svg {
             margin: 0;
             padding: 0;
           }
         }
       }
-      > div.contact {
+
+      >div.contact {
         display: flex;
         flex-flow: row wrap;
         align-content: center;
         gap: 0.4rem;
 
-        > button {
+        >button {
           display: flex;
           padding: 0.4rem;
           border: 0;
           background-color: c.$light_gray;
           height: min-content;
 
-          > svg {
+          >svg {
             margin: 0;
             padding: 0;
           }
@@ -81,10 +94,11 @@ header.header {
       }
     }
   }
-  > nav {
+
+  >nav {
     flex-grow: 1;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     // gap: 1rem;
     padding: 0.6rem 2rem;
 
@@ -94,32 +108,43 @@ header.header {
     background-color: c.$darkblue;
     align-items: center;
     justify-content: center;
+    position: sticky;
 
     @include r.responsive("mobile") {
       font-size: var(--step--2);
       padding: 0.2rem 2rem;
     }
+
     button {
       border: 0;
       background-color: inherit;
       padding: 0.4rem;
       height: min-content;
 
-      > svg {
+      >svg {
         display: block;
       }
     }
-    > input {
+
+    >form {
+      width: 100%;
       flex-grow: 1;
-      line-height: 2;
-      padding-inline: 0.4rem;
-      @include r.responsive("mobile") {
-        font-size: var(--step--2);
+
+      >input {
+        width: min(80%, 600px);
+        line-height: 2;
+        padding-inline: 0.4rem;
+
+        @include r.responsive("mobile") {
+          font-size: var(--step--2);
+        }
+
+        &:focus {
+          outline: none;
+        }
       }
 
-      &:focus {
-        outline: none;
-      }
+      position: relative;
     }
   }
 }

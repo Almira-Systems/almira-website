@@ -1,10 +1,13 @@
-import Image from "next/image";
+"use client";
 import styles from "./header.module.scss";
 import { LinkedInIcon } from "@/app/icons/linkedin";
 import { SearchIcon } from "@/app/icons/search_icon";
 import Link from "next/link";
+import Image from "next/image";
 import Dropdown from "./dropdown";
 import { MenuIcon } from "lucide-react";
+import Cart from "@/app/_components/cart";
+import ProductSearch from "@/app/_components/product_search";
 
 const AW_LOGO_URL =
   "https://www.ameriwater.com/wp-content/themes/ameriwater/assets/images/logo_registered.png";
@@ -47,43 +50,35 @@ const Header = () => {
       <nav>
         <Dropdown
           id="nav-dropdown"
-          triggerId="nav-dropdown-trigger"
-          trigger={
-            <button
-              className={styles.dropdown_trigger}
-              id="nav-dropdown-trigger"
-            >
-              <MenuIcon color="#fff" />
-            </button>
-          }
+          trigger={<MenuIcon color="#fff" />}
+          className={styles.nav_dropdown}
           options={[
-            { label: "All Products", value: "all_products" },
-            { label: "Devices", value: "devices" },
+            {
+              label: "All Products",
+              value: "all_products",
+              link: true,
+              href: "#all",
+            },
+            {
+              label: "Devices",
+              value: "devices",
+              link: true,
+              href: "#devices",
+            },
             {
               label: "Parts & Consumables",
               value: "parts_and_consumables",
+              link: true,
+              href: "#parts-and-consumables",
+              wrap: false,
             },
           ]}
         />
-        <input
-          type="text"
-          placeholder="Search by device name or part number..."
-        />
+        <ProductSearch />
+        <Cart />
       </nav>
     </header>
   );
 };
-{
-  /* <Link href="#products">All Products</Link> */
-}
-{
-  /* <Link href="/about"></Link> */
-}
-{
-  /* <Link href="#devices">Devices</Link> */
-}
-{
-  /* <Link href="#products">Parts {"&"} Consumables</Link> */
-}
 
 export default Header;

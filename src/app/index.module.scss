@@ -5,8 +5,6 @@ main.main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  // height: 100vh;
-  // width: 100vw;
 
   div.card {
     border: 1px solid c.$light_gray;
@@ -21,20 +19,21 @@ main.main {
     width: 360px;
     display: flex;
 
-    > div {
+    >div {
       overflow-x: auto;
       display: flex;
       justify-content: flex-start;
       gap: 0.4rem;
     }
 
-    > h3 {
+    >h3 {
       margin: 0;
+      font-family: var(--font-mergelight);
       flex-grow: 1;
     }
   }
 
-  > section {
+  >section {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;

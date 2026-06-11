@@ -1,25 +1,81 @@
 @use "@/styles/colors" as c;
 
-div.dropdown_container {
+button.trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  background-color: inherit;
+  padding: 0.4rem;
+  color: c.$white;
+
+  p {
+    margin: 0;
+  }
+}
+div.dropdown {
+  color: c.$darkblue;
+  background-color: c.$white;
+  font-family: var(--font-open-sans);
+  opacity: 1;
+  translate: 0 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  box-sizing: border-box;
   position: relative;
-  // display: flex;
+  padding-block: 0.25rem;
+  outline: 1px solid c.$light_gray;
+  border-radius: 0;
+  background-color: white;
+  transform-origin: var(--transform-origin);
+  width: auto;
 
-  ul.dropdown {
-    display: flex;
-    flex-flow: column nowrap;
-    position: absolute;
-    // bottom: -5rem;
-    top: 0;
-    left: 0;
-    border: 0;
-    background: c.$darkblue;
-    color: c.$white;
-    translate: 0 calc(50% + 1.2rem);
-    font-family: var(--font-open-sans);
+  transition:
+    opacity 0.1s ease-in-out,
+    translate 0.1s ease-in-out;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    pointer-events: none;
+    translate: 0 -8px;
+  }
+  //
+  // &[data-align="right"] {
+  //   place-self: flex-end;
+  // }
+  //
+  // &[data-align="left"] {
+  //   place-self: flex-start;
+  // }
+  //
+  // &[data-align="center"] {
+  //   place-self: center;
+  // }
 
-    > li {
-      padding: 0.5rem;
-      font-size: var(--step--2);
+  // &[data-open] {
+  //
+  // }
+
+  *[role="menuitem"].dropdown_item {
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // width: auto;
+    // box-sizing: content-box;
+    // max-width: 20ch;
+    //
+    padding: 0.4rem;
+    font-size: var(--step--3);
+    &:not(.wrap) {
+      white-space: nowrap;
+      max-width: inherit;
+
+      &.truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 }

@@ -4,9 +4,16 @@ import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import { print } from "graphql";
 
 const shopifyClient = createStorefrontApiClient({
-  storeDomain: env.SHOPIFY_STOREFRONT_DOMAIN,
+  storeDomain:
+    typeof window !== "undefined"
+      ? env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_DOMAIN
+      : env.SHOPIFY_STOREFRONT_DOMAIN,
   apiVersion: "2026-04",
-  publicAccessToken: env.SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN,
+  publicAccessToken:
+    typeof window !== "undefined"
+      ? env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN
+      : env.SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN,
+  // publicAccessToken: env.SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN,
 });
 
 export async function shopifyFetch<

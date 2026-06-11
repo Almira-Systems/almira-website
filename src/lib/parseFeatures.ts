@@ -47,24 +47,10 @@ export function parseRecursiveString(input: string): SchemaNode[] {
 
       if (token === "$$") {
         index++; // Step past "$$"
-
-        // STOP CHILD LOOP: Returning explicitly stops this function execution.
-        // Control drops backward to the parent function that called it.
         return nodes;
       }
-      // Parse a standard 'Label: Value' string fragment
-      // const separatorIdx = token.indexOf(":");
-      // if (separatorIdx === -1) {
-      //   throw new Error(
-      //     `Syntax Error: Missing ':' key-value separator in token: "${token}"`,
-      //   );
-      // }
-
-      // const label = token.substring(0, separatorIdx).trim();
-      // const rawValue = token.substring(separatorIdx + 1).trim();
 
       nodes.push({
-        // label: label,
         value: parsePrimitiveValue(token),
       });
 
@@ -75,38 +61,20 @@ export function parseRecursiveString(input: string): SchemaNode[] {
   }
   return parseList();
 }
-const input = `
-Carbon Pre-Filter for Chlorine Removal
-Sediment Pre-Filter for Particulate Removal
-Anti-Scalant Injection Feed to Prevent Hard Water Scale on Reverse Osmosis Membranes
-AWRO System with:@@
- Smart monitoring with real-time alarms and system shutdowns
- Programable standby flush
- High-efficiency membranes for top-tier water quality
- Open frame design for ease of serviceability$$
-Polish DI with Either Silex Deionizer or DI Exchange Tanks Handled by Local DI Exchange Provider
-RO and DI Bypass Headers for Continuous Operation During Maintenance or System Shutdown
-Storage Tank with Sealed Lid@@
- Distribution pump sized to meet system requirements with shut down on empty storage tank
- Submicron vent filter
- Distribution loop return manifold
- Pressure relief valve
- Distribution loop return flow meter
- Sample port
- Distribution loop to drain valve
- Internal spray nozzle$$
-Ultraviolet Light@@
- Controls bacteria proliferation in purified water storage and distribution systems
- Equipped with an online monitor to measure output intensity and alarms when lamp needs replaced$$
-Endotoxin Ultrafiltration@@
- 0.2 Submicron Endotoxin Cartridge
- Installed post UV to remove endotoxins from the purified water storage and distribution system$$
-Alarm Panel@@
- Monitors system operating conditions
- Includes RO alarm, low storage tank, and water conductivity
- Remote alarm included for continuous system monitoring outside water room$$
-Included Installation Kit, Water System Label Kit, and AAMI ST108 Validation Water Testing
-System can be easily disinfected
+const input = `4” x 40” thin film composite membranes provide maximum contaminant rejection
+while achieving high product flow and low energy use.
+High pressure stainless steel membrane housings with quick connects enable fast
+and efficient membrane replacement.
+Disinfection is quick and easy with a simple push of the keypad, the MROZ can be
+disinfected with PAA and rinsed in 2 hours.
+High efficiency quiet submersible pump with integral motor starter and motor
+protection keeps system running smoothly and protects the motor from overload.
+The microprocessor controller with backlit LCD display shows: product and feed water
+conductivity, product water temperature, operating hours, percent rejection, and
+a variety of operating status messages.
+The programmable flush for storage tank or direct feed keeps RO fresh between uses
+The product divert feature diverts water to the drain when the conductivity exceeds
+the set point for added patient safety.
 `;
 console.log(
   JSON.stringify(parseRecursiveString(input.replace(/[\n]+/g, ",,")), null, 2),
