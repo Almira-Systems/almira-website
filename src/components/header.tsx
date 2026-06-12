@@ -30,10 +30,21 @@ const Header = () => {
         </Link>
         <div>
           <div className={styles.buttons}>
-            <button>
+            <button
+              name="linkedin"
+              onClick={() =>
+                window.open("https://www.linkedin.com/company/ameriwater/")
+              }
+            >
               <LinkedInIcon />
             </button>
-            <button>
+            <button
+              name="search"
+              // onClick={() => {
+              //   const productSearch = document.getElementById("product_search");
+              //   productSearch?.focus();
+              // }}
+            >
               <SearchIcon />
             </button>
           </div>

@@ -128,11 +128,13 @@ const ProductPage = async ({ searchParams }: ProductPageProps) => {
   return (
     <Suspense>
       <main className={styles.main}>
-        <header>
-          <h4>{product.title}</h4>
-          <p>{product.description}</p>
-        </header>
-        <ProductInfo product={product} />
+        <div className={styles.product_area}>
+          <span>
+            <h4>{product.title}</h4>
+            <p>{product.description}</p>
+          </span>
+          <ProductInfo product={product} />
+        </div>
         <div className={styles.related}>
           {["Part", "Consumable", "Service"].includes(product.productType) ? (
             <>

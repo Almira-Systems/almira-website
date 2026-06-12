@@ -170,6 +170,7 @@ const ProductSearch = () => {
           </Autocomplete.Positioner>
         </Autocomplete.Portal>
         <Autocomplete.Input
+          id="product_search"
           type="text"
           placeholder="Search by device name or part number..."
           name="search"

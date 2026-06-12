@@ -43,17 +43,22 @@ const ProductInfo = ({ product }: ProductProps) => {
           {variants.reduce((prev, n) => (prev += n?.quantityAvailable ?? 0), 0)}
         </h6>
         {variants.length > 0 ? (
-          <select
-            onChange={(e) =>
-              setSelectedVariant(variants.find((n) => n.id === e.target.value))
-            }
-          >
-            {variants.map((n) => (
-              <option value={n.id} key={n.id}>
-                {n.title}
-              </option>
-            ))}
-          </select>
+          <label>
+            Variant:&nbsp;
+            <select
+              onChange={(e) =>
+                setSelectedVariant(
+                  variants.find((n) => n.id === e.target.value),
+                )
+              }
+            >
+              {variants.map((n) => (
+                <option value={n.id} key={n.id}>
+                  {n.title}
+                </option>
+              ))}
+            </select>
+          </label>
         ) : null}
         <h6>Price: ${Number(selectedVariant?.price.amount).toFixed(2)}</h6>
         <div></div>
@@ -76,6 +81,7 @@ const ProductInfo = ({ product }: ProductProps) => {
             <input
               type="number"
               min="1"
+              name="quantity"
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
             />
