@@ -1,6 +1,5 @@
-import type { ProductCardFields } from "@/components/product";
+import { ProductCardFields } from "./queries";
 import { graphql, useFragment, type FragmentType } from "@/types/gql";
-import type { Product, ProductByIdQuery } from "@/types/gql/graphql";
 export const MetaobjectFields = graphql(/* gql */ `
   fragment MetaobjectDetails on Metaobject {
     id

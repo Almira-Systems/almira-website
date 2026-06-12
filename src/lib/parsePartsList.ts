@@ -5,9 +5,9 @@ import exceljs from "exceljs";
 import { useFragment, graphql } from "../types/gql";
 import { shopifyFetch } from "./shopify";
 import dotenv from "dotenv";
-import { ProductCardFields } from "@/components/product";
 import type { ProductCardFieldsFragment } from "@/types/gql/graphql";
 import { generateString } from "./utils";
+import { ProductCardFields } from "./queries";
 
 dotenv.config({ path: ".env" });
 

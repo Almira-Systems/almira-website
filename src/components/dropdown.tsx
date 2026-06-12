@@ -82,7 +82,7 @@ const Dropdown = ({
                   onClick={itemOnClick}
                   closeOnClick={false}
                   className={c(...classes)}
-                  href={(opt.href?.length ?? 0) > 0 ? opt.href : null}
+                  href={(opt.href?.length ?? 0) > 0 ? opt.href : ''}
                 >
                   {opt.label}
                 </Item>

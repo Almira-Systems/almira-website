@@ -28,7 +28,6 @@ const ProductInfo = ({ product }: ProductProps) => {
     (n) => n.title !== "Default Title",
   );
 
-  console.log({ variants });
   return (
     <section>
       <Image
@@ -41,7 +40,7 @@ const ProductInfo = ({ product }: ProductProps) => {
         <h6>Available: {product.availableForSale ? "Yes" : "No"}</h6>
         <h6>
           In Stock:{" "}
-          {variants.reduce((prev, n) => (prev += n.quantityAvailable), 0)}
+          {variants.reduce((prev, n) => (prev += n?.quantityAvailable ?? 0), 0)}
         </h6>
         {variants.length > 0 ? (
           <select
@@ -62,9 +61,6 @@ const ProductInfo = ({ product }: ProductProps) => {
           <Button
             onClick={async () => {
               if (selectedVariant) {
-                console.log({ selectedVariant });
-
-                // if(selectedVariant)
                 await addToCart({
                   quantity,
                   variantId: selectedVariant.id,
@@ -72,11 +68,6 @@ const ProductInfo = ({ product }: ProductProps) => {
                 refetch();
               }
             }}
-            disabled={
-              false
-              // !selectedVariant ||
-              // ["Device", "Kit"].includes(product.productType)
-            }
           >
             Add to cart
           </Button>
@@ -85,7 +76,6 @@ const ProductInfo = ({ product }: ProductProps) => {
             <input
               type="number"
               min="1"
-              // max={selectedVariant?.quantityAvailable}
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
             />

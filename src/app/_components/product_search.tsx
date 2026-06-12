@@ -51,7 +51,7 @@ const ProductSearch = () => {
   }, [state]);
 
   return (
-    <Form action={searchAction} ref={searchFormRef}>
+    <Form action={searchAction} ref={searchFormRef} className={styles.form}>
       <Autocomplete.Root
         items={autocompleteItems}
         value={searchValue}
@@ -97,9 +97,8 @@ const ProductSearch = () => {
                     )
                     .flat()
                     .filter((p) => p);
-                  console.log({ autocompleteItems, relatedProducts });
                   return (
-                    <>
+                    <div key={product.id + index}>
                       <div
                         className={styles.search_result}
                         key={product.id}
@@ -122,11 +121,6 @@ const ProductSearch = () => {
                         <div>
                           <header>
                             <h5>{product.title}</h5>
-                            {/* <span> */}
-                            {/*   {models?.map((m) => ( */}
-                            {/*     <p>{m?.modelNumber?.value}</p> */}
-                            {/*   ))} */}
-                            {/* </span> */}
                           </header>
                           <main>
                             <h5>
@@ -168,7 +162,7 @@ const ProductSearch = () => {
                       {(autocompleteItems?.length ?? 0) > index + 1 ? (
                         <hr />
                       ) : null}
-                    </>
+                    </div>
                   );
                 }}
               </Autocomplete.List>
@@ -183,39 +177,6 @@ const ProductSearch = () => {
           onChangeCapture={(e) => setSearchValue(e.target.value)}
           onChange={onInputChange}
         />
-        {false ? (
-          <div ref={searchResultsRef} className={styles.search_results}>
-            {pending
-              ? "Loading..."
-              : state?.products
-                  ?.filter((p) => p)
-                  .map((product) => (
-                    <div
-                      className={styles.search_result}
-                      key={product.id}
-                      onClick={() => {
-                        router.push(`/product?h=${product.handle}`);
-                        setShowResults(false);
-                      }}
-                      onMouseEnter={() =>
-                        router.prefetch(`/product?h=${product.handle}`)
-                      }
-                    >
-                      {product.images.nodes?.[0]?.url && (
-                        <Image
-                          src={product.images.nodes?.[0]?.url as string}
-                          alt={`${product.title} image`}
-                          width={120}
-                          height={120}
-                        />
-                      )}
-                      <h5>{product.title}</h5>
-                      {/* <p>{product.description}</p> */}
-                      {/* <Product product={product} /> */}
-                    </div>
-                  ))}
-          </div>
-        ) : null}
       </Autocomplete.Root>
     </Form>
   );

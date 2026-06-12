@@ -1,5 +1,9 @@
 @use "@/styles/colors" as c;
 
+form.form {
+  line-height: 1rem;
+}
+
 div.search_results_positioner {
   font-size: var(--step--2);
   transition:
@@ -18,11 +22,8 @@ div.search_results_positioner {
   }
 
   position: absolute;
-  // z-index: 1;
   background-color: c.$white;
   color: c.$darkblue;
-  // color: c.$white;
-  // background-color: c.$darkblue;
   border: 1px solid c.$light_gray;
   width: min(80%, 540px);
   padding: 0.4rem;
@@ -34,13 +35,7 @@ div.search_results_positioner {
   max-height: 300px;
   overflow-y: auto;
 
-  div.search_results_popup {
-    // overflow: clip;
-  }
-
   div.search_result {
-    // overflow: clip;
-    // overflow: hidden;
     max-height: 80px;
     display: flex;
     flex-flow: row nowrap;
@@ -48,14 +43,6 @@ div.search_results_positioner {
     align-items: center;
 
     cursor: pointer;
-
-    // &:has(img + div)>div {
-    //   padding-left: 0.4rem;
-    // }
-
-    // &:not(:first-of-type) {
-    //   border-top: 1px solid c.$light_gray;
-    // }
 
     &:hover {
       background-color: c.$light_gray;
@@ -69,11 +56,7 @@ div.search_results_positioner {
       width: 54px;
       height: 54px;
       margin: 0.2rem;
-      // object-fit: fill;
-      // flex-shrink: 1;
     }
-
-    // align-items: flex-start;
 
     >div {
       display: flex;
@@ -109,14 +92,6 @@ div.search_results_positioner {
             border-radius: 4px;
           }
         }
-
-        // >h5 {
-        //   flex-grow: 1;
-        // }
-        //
-        // >p {
-        //   flex-shrink: 1;
-        // }
       }
 
       >main {
@@ -140,30 +115,11 @@ div.search_results_positioner {
 
       >footer {
         display: flex;
-
-        // justify-self: flex-end;
-        // place-self: flex-start flex-end;
         span {
           display: inline-flex;
         }
       }
 
-      // &:is(img + div) {
-      //   border-left: 1px solid c.$light_gray;
-      // }
-      // p {
-      //   font-size: var(--step--3);
-      //
-      //   &:not(.wrap) {
-      //     white-space: nowrap;
-      //     max-width: 48ch;
-      //
-      //     &.truncate {
-      //       overflow: hidden;
-      //       text-overflow: ellipsis;
-      //     }
-      //   }
-      // }
     }
   }
 }

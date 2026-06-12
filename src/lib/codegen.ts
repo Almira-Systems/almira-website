@@ -39,8 +39,7 @@ const config: CodegenConfig = {
       config: {
         dedupeFragments: true,
       },
-      // plugins: [],
-      plugins: ["typescript", "typescript-operations"],
+      plugins: [],
     },
   },
 };

@@ -1,43 +1,48 @@
 @use "@/styles/colors" as c;
 
 main.main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  div.card {
-    border: 1px solid c.$light_gray;
-    padding: 1rem;
-    text-align: center;
-    border-radius: 6px;
-    cursor: pointer;
-
-    // display: flex;
-    flex-flow: column nowrap;
-    // align-items: flex-start;
-    width: 360px;
-    display: flex;
-
-    >div {
-      overflow-x: auto;
-      display: flex;
-      justify-content: flex-start;
-      gap: 0.4rem;
-    }
-
-    >h3 {
-      margin: 0;
-      font-family: var(--font-mergelight);
-      flex-grow: 1;
-    }
-  }
-
+  margin: 1rem;
   >section {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
+
+    $card_width: 360px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($card_width, 1fr));
+    max-width: calc(calc($card_width * 2) + 1rem);
+    // place-content: center;
     gap: 1rem;
-    margin-block: 1rem;
+    margin: auto;
+    place-items: center;
+
+    >  div.card {
+      border: 1px solid c.$light_gray;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+    
+      // display: flex;
+      flex-flow: column nowrap;
+      // align-items: flex-start;
+      width: $card_width;
+      display: flex;
+  
+      >div {
+        overflow-x: auto;
+        display: flex;
+        justify-content: flex-start;
+        gap: 0.4rem;
+      }
+  
+      >h3 {
+        margin: 0;
+        font-family: var(--font-mergelight);
+        flex-grow: 1;
+      }
+    }
+  
   }
+
+
+
 }

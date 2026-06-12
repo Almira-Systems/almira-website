@@ -19,7 +19,6 @@ const searchProductsSchema = zfd.formData({
 
 export async function searchProducts(_prevData: any, formData: FormData) {
   const { success, data, error } = searchProductsSchema.safeParse(formData);
-  console.log({ data, success, error });
   if (!success) {
     return {
       error,
@@ -36,7 +35,6 @@ export async function searchProducts(_prevData: any, formData: FormData) {
   const products = predictiveSearch?.products.map((n) =>
     useFragment(ProductCardFields, n),
   );
-  console.log({ products });
   return { products };
 }
 
@@ -56,7 +54,8 @@ export const getCart = async () => {
       query: GetCartQuery,
       variables: { cartId },
     });
-    return cart;
+    const parsedCart = useFragment(CartFields, cart)
+    return parsedCart;
   } catch (e) {
     console.error(e);
   }
@@ -74,7 +73,6 @@ export const addToCart = async ({ variantId, quantity }: AddToCartProps) => {
     if (!cartId) {
       return;
     }
-    console.log({ cartId, variantId, quantity });
     const { cartLinesAdd } = await shopifyFetch({
       query: AddCartLineItemQuery,
       variables: { cartId, variantId, quantity },

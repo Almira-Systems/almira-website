@@ -94,6 +94,7 @@ const Cart = () => {
         return {
           label: <CartItem item={item} refetchCart={refetch} />,
           value: item.id,
+          wrap: true 
         };
       }) ?? [];
   if (cartOptions.length > 0) {
@@ -114,6 +115,7 @@ const Cart = () => {
         </footer>
       ),
       value: "",
+      wrap: false
     });
   } else {
     cartOptions.push({

@@ -61,21 +61,7 @@ export function parseRecursiveString(input: string): SchemaNode[] {
   }
   return parseList();
 }
-const input = `4” x 40” thin film composite membranes provide maximum contaminant rejection
-while achieving high product flow and low energy use.
-High pressure stainless steel membrane housings with quick connects enable fast
-and efficient membrane replacement.
-Disinfection is quick and easy with a simple push of the keypad, the MROZ can be
-disinfected with PAA and rinsed in 2 hours.
-High efficiency quiet submersible pump with integral motor starter and motor
-protection keeps system running smoothly and protects the motor from overload.
-The microprocessor controller with backlit LCD display shows: product and feed water
-conductivity, product water temperature, operating hours, percent rejection, and
-a variety of operating status messages.
-The programmable flush for storage tank or direct feed keeps RO fresh between uses
-The product divert feature diverts water to the drain when the conductivity exceeds
-the set point for added patient safety.
-`;
+const input = ``;
 console.log(
   JSON.stringify(parseRecursiveString(input.replace(/[\n]+/g, ",,")), null, 2),
 );

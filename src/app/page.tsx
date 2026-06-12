@@ -3,7 +3,6 @@ import styles from "./index.module.scss";
 
 import { shopifyFetch } from "@/lib/shopify";
 import { useFragment } from "@/types/gql";
-import Carousel from "@/components/carousel";
 import {
   SparePartsAndConsumablesQuery,
   DevicesAndKitsQuery,

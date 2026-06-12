@@ -17,7 +17,6 @@ interface ProductProps {
 
 const Product = ({ product }: ProductProps) => {
   const router = useRouter();
-  console.log({ product });
   const pageRoute = `/product?h=${product.handle}`;
   const imageUrl =
     (product.images.nodes?.[0]?.url as string) ?? getPlaceholderImage(120, 120);
