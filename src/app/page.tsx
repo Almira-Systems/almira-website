@@ -29,6 +29,8 @@ export default async function Home() {
   const sparePartsAndConsumables = await getSparePartsAndConsumables();
   const devicesAndKits = await getDevicesAndKits();
 
+  const numReturns = 8;
+
   return (
     <main className={styles.main}>
       <section>
@@ -37,7 +39,7 @@ export default async function Home() {
           <div>
             {devicesAndKits
               .filter((d) => d.productType == "Device")
-              .slice(0, 4)
+              .slice(0, numReturns)
               .map((item) => (
                 <Product key={item.id} product={item} />
               ))}
@@ -48,7 +50,7 @@ export default async function Home() {
           <div>
             {sparePartsAndConsumables
               .filter((d) => d.productType == "Part")
-              .slice(0, 4)
+              .slice(0, numReturns)
               .map((item) => (
                 <Product key={item.id} product={item} />
               ))}
@@ -59,7 +61,7 @@ export default async function Home() {
           <div>
             {devicesAndKits
               .filter((d) => d.productType == "Kit")
-              .slice(0, 4)
+              .slice(0, numReturns)
               .map((item) => (
                 <Product key={item.id} product={item} />
               ))}
@@ -70,7 +72,7 @@ export default async function Home() {
           <div>
             {sparePartsAndConsumables
               .filter((d) => d.productType == "Consumable")
-              .slice(0, 4)
+              .slice(0, numReturns)
               .map((item) => (
                 <Product key={item.id} product={item} />
               ))}
