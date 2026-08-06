@@ -42,12 +42,10 @@ export default async function RootLayout({
       >
         <QueryClientWrapper>
           <Provider>
-            <Suspense fallback={<>loading</>}>
-              <CartWrapper>
-                <Header />
-                {children}
-              </CartWrapper>
-            </Suspense>
+            <CartWrapper>
+              <Header />
+              {children}
+            </CartWrapper>
           </Provider>
         </QueryClientWrapper>
       </body>

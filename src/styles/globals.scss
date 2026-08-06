@@ -1,4 +1,6 @@
 @use "../../node_modules/utopia-core-scss/src/utopia" as utopia;
+@forward "colors";
+@forward "mixins";
 
 :root {
   @include utopia.generateTypeScale(
