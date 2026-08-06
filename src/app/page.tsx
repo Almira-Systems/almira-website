@@ -34,17 +34,17 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <section>
-        <div className={styles.card}>
-          <h3>Devices</h3>
-          <div>
-            {devicesAndKits
-              .filter((d) => d.productType == "Device")
-              .slice(0, numReturns)
-              .map((item) => (
-                <Product key={item.id} product={item} />
-              ))}
-          </div>
-        </div>
+        {/* <div className={styles.card}> */}
+        {/*   <h3>Devices</h3> */}
+        {/*   <div> */}
+        {/*     {devicesAndKits */}
+        {/*       .filter((d) => d.productType == "Device") */}
+        {/*       .slice(0, numReturns) */}
+        {/*       .map((item) => ( */}
+        {/*         <Product key={item.id} product={item} /> */}
+        {/*       ))} */}
+        {/*   </div> */}
+        {/* </div> */}
         <div className={styles.card}>
           <h3>Parts</h3>
           <div>
@@ -56,17 +56,17 @@ export default async function Home() {
               ))}
           </div>
         </div>
-        <div className={styles.card}>
-          <h3>Kits</h3>
-          <div>
-            {devicesAndKits
-              .filter((d) => d.productType == "Kit")
-              .slice(0, numReturns)
-              .map((item) => (
-                <Product key={item.id} product={item} />
-              ))}
-          </div>
-        </div>
+        {/* <div className={styles.card}> */}
+        {/*   <h3>Kits</h3> */}
+        {/*   <div> */}
+        {/*     {devicesAndKits */}
+        {/*       .filter((d) => d.productType == "Kit") */}
+        {/*       .slice(0, numReturns) */}
+        {/*       .map((item) => ( */}
+        {/*         <Product key={item.id} product={item} /> */}
+        {/*       ))} */}
+        {/*   </div> */}
+        {/* </div> */}
         <div className={styles.card}>
           <h3>Consumables</h3>
           <div>
