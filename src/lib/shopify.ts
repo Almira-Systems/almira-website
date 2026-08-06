@@ -13,13 +13,9 @@ const shopifyClient = createStorefrontApiClient({
     typeof window !== "undefined"
       ? env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN
       : env.SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN,
-  // publicAccessToken: env.SHOPIFY_STOREFRONT_PUBLIC_ACCESS_TOKEN,
 });
 
-export async function shopifyFetch<
-  TData,
-  TVariables = Record<string, unknown>,
->({
+export async function query<TData, TVariables = Record<string, unknown>>({
   query,
   variables,
 }: {

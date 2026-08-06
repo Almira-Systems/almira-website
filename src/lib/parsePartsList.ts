@@ -3,7 +3,7 @@ import { z } from "zod";
 import Papa from "papaparse";
 import exceljs from "exceljs";
 import { useFragment, graphql } from "../types/gql";
-import { shopifyFetch } from "./shopify";
+import { query } from "./shopify";
 import dotenv from "dotenv";
 import type { ProductCardFieldsFragment } from "@/types/gql/graphql";
 import { generateString } from "./utils";
@@ -156,7 +156,7 @@ async function parsePartsImportData(workbook: exceljs.Workbook) {
   );
 
   const nums = Array.from(relatedDevNums);
-  const devicesRes = await shopifyFetch({
+  const devicesRes = await query({
     query: getRelatedDevicesQuery,
     variables: {
       modelFilters: (nums.map((devNum) => ({

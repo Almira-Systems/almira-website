@@ -1,6 +1,6 @@
 "use server";
 import { CartFields, ProductCardFields } from "@/lib/queries";
-import { shopifyFetch } from "@/lib/shopify";
+import { query } from "@/lib/shopify";
 import { useFragment } from "@/types/gql";
 import { cookies } from "next/headers";
 import { zfd } from "zod-form-data";
@@ -25,7 +25,7 @@ export async function searchProducts(_prevData: any, formData: FormData) {
     };
   }
 
-  const { predictiveSearch } = await shopifyFetch({
+  const { predictiveSearch } = await query({
     query: PredictiveSearchQuery,
     variables: {
       search: `${data.search}`,
@@ -43,18 +43,18 @@ export const getCart = async () => {
     const cookieStore = await cookies();
     const cartId = cookieStore.get("cartId")?.value;
     if (!cartId) {
-      const { cartCreate } = await shopifyFetch({
+      const { cartCreate } = await query({
         query: CreateNewCartQuery,
       });
       const parsedCart = useFragment(CartFields, cartCreate?.cart);
       cookieStore.set("cartId", `${parsedCart?.id}`);
       return parsedCart;
     }
-    const { cart } = await shopifyFetch({
+    const { cart } = await query({
       query: GetCartQuery,
       variables: { cartId },
     });
-    const parsedCart = useFragment(CartFields, cart)
+    const parsedCart = useFragment(CartFields, cart);
     return parsedCart;
   } catch (e) {
     console.error(e);
@@ -70,10 +70,11 @@ export const addToCart = async ({ variantId, quantity }: AddToCartProps) => {
   try {
     const cookieStore = await cookies();
     const cartId = cookieStore.get("cartId")?.value;
+    console.log({ cartId });
     if (!cartId) {
       return;
     }
-    const { cartLinesAdd } = await shopifyFetch({
+    const { cartLinesAdd } = await query({
       query: AddCartLineItemQuery,
       variables: { cartId, variantId, quantity },
     });
@@ -90,7 +91,7 @@ export const removeFromCart = async ({ lineId }: { lineId: string }) => {
     if (!cartId) {
       return;
     }
-    const { cartLinesRemove } = await shopifyFetch({
+    const { cartLinesRemove } = await query({
       query: RemoveCartLineItemQuery,
       variables: { cartId, lineId },
     });
@@ -113,7 +114,7 @@ export const updateCartItem = async ({
     if (!cartId) {
       return;
     }
-    const { cartLinesUpdate } = await shopifyFetch({
+    const { cartLinesUpdate } = await query({
       query: UpdateCartLineItemQuery,
       variables: { cartId, lineId, quantity },
     });

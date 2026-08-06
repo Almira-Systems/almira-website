@@ -1,4 +1,4 @@
-import { shopifyFetch } from "@/lib/shopify";
+import { query } from "@/lib/shopify";
 import { graphql, useFragment, type DocumentType } from "@/types/gql";
 import { Suspense } from "react";
 import Product from "@/components/product";
@@ -24,7 +24,7 @@ const getRelatedParts = async (
 ) => {
   "use cache";
   const searchQuery = `(product_type:Part OR product_type:Consumable OR product_type:Service)`;
-  const { products } = await shopifyFetch({
+  const { products } = await query({
     query: GetRelatedDevicesQuery,
     variables: {
       searchQuery: searchQuery,
@@ -56,7 +56,7 @@ const getRelatedDevices = async (
 ) => {
   "use cache";
   const searchQuery = `(product_type:Device OR product_type:Kit)`;
-  const { products } = await shopifyFetch({
+  const { products } = await query({
     query: GetRelatedDevicesQuery,
     variables: {
       searchQuery: searchQuery,
@@ -87,7 +87,7 @@ const getRelatedDevices = async (
 
 const getProductByHandle = async (handle: string) => {
   "use cache";
-  const { product } = await shopifyFetch({
+  const { product } = await query({
     query: GetProductByIdQuery,
     variables: { handle },
   });

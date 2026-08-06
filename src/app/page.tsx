@@ -1,7 +1,7 @@
 import Product from "@/components/product";
 import styles from "./index.module.scss";
 
-import { shopifyFetch } from "@/lib/shopify";
+import { query } from "@/lib/shopify";
 import { useFragment } from "@/types/gql";
 import {
   SparePartsAndConsumablesQuery,
@@ -11,7 +11,7 @@ import {
 
 const getSparePartsAndConsumables = async () => {
   "use cache";
-  const { products } = await shopifyFetch({
+  const { products } = await query({
     query: SparePartsAndConsumablesQuery,
   });
   return products.nodes.map((n) => useFragment(ProductCardFields, n));
@@ -19,7 +19,7 @@ const getSparePartsAndConsumables = async () => {
 
 const getDevicesAndKits = async () => {
   "use cache";
-  const { products } = await shopifyFetch({
+  const { products } = await query({
     query: DevicesAndKitsQuery,
   });
   return products.nodes.map((n) => useFragment(ProductCardFields, n));
