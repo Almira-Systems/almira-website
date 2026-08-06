@@ -37,7 +37,7 @@ export const CartItem = ({ item, refetchCart }: CartItemProps) => {
           startTransition(async () => {
             updateOQuantity((q) => q - 1);
             try {
-              if (item.quantity === 1) {
+              if (item.quantity < 2) {
                 await removeFromCart({ lineId: item.id });
               } else {
                 await updateCartItem({
@@ -88,15 +88,13 @@ const Cart = () => {
   const { cart, refetch } = useCart();
 
   const cartOptions =
-    cart?.lines.nodes
-      ?.filter((item) => item.quantity > 0)
-      .map((item) => {
-        return {
-          label: <CartItem item={item} refetchCart={refetch} />,
-          value: item.id,
-          wrap: true 
-        };
-      }) ?? [];
+    cart?.lines.nodes.map((item) => {
+      return {
+        label: <CartItem item={item} refetchCart={refetch} />,
+        value: item.id,
+        wrap: true,
+      };
+    }) ?? [];
   if (cartOptions.length > 0) {
     const currentTotal = cart?.lines.nodes?.reduce(
       (a, b) => a + b.quantity * (b.cost.totalAmount.amount as number),
@@ -115,7 +113,7 @@ const Cart = () => {
         </footer>
       ),
       value: "",
-      wrap: false
+      wrap: false,
     });
   } else {
     cartOptions.push({
