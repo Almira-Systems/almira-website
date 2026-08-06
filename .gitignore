@@ -48,3 +48,5 @@ yarn-error.log*
 public/shopify_csv_data/**/*
 
 generated/**/*
+
+Session.vim
