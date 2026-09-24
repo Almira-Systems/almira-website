@@ -1,8 +1,8 @@
 "use client";
-import ThemeButton from "./themeButton";
-import styles from "./styles.module.scss";
-import MotionButton from "./motionButton";
 import { useEffect, useState } from "react";
+import MotionButton from "./motionButton";
+import styles from "./styles.module.scss";
+import ThemeButton from "./themeButton";
 
 const Header = () => {
   const [matches, setMatches] = useState(false);

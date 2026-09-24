@@ -1,8 +1,9 @@
 "use client";
-import { c } from "@/lib/utils";
-import styles from "../page.module.scss";
 import { useEffect, useState } from "react";
 import { useMotion } from "@/context/motion";
+import { c } from "@/lib/utils";
+import styles from "../page.module.scss";
+
 const CpuThingIcon = ({
   className,
   id,

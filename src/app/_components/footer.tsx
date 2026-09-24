@@ -1,6 +1,7 @@
+import { MailIcon } from "lucide-react";
 import Link from "next/link";
 import styles from "./styles.module.scss";
-import { MailIcon } from "lucide-react";
+
 const Footer = () => {
   return (
     <footer className={styles.footer}>

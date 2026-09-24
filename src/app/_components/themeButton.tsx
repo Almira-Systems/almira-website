@@ -1,8 +1,8 @@
 "use client";
+import { Tooltip } from "@base-ui/react";
+import { CloudIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "@/context/theme";
 import styles from "./styles.module.scss";
-import { CloudIcon, MoonIcon, SunIcon } from "lucide-react";
-import { Tooltip } from "@base-ui/react";
 
 const ThemeButton = () => {
   const { theme, setTheme } = useTheme();

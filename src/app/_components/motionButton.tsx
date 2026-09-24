@@ -1,8 +1,8 @@
 "use client";
-import { useMotion } from "@/context/motion";
-import styles from "./styles.module.scss";
 import { Tooltip } from "@base-ui/react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { useMotion } from "@/context/motion";
+import styles from "./styles.module.scss";
 
 const MotionButton = () => {
   const { motion, setMotion } = useMotion();
