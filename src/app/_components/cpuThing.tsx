@@ -20,6 +20,7 @@ const CpuThingIcon = ({
     viewBox="0 0 209.679 178.733"
     className={className}
   >
+    <title>cpu thing</title>
     <g
       id={`layer${id}`}
       fill="none"

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 
-type MotionType = Boolean;
+type MotionType = boolean;
 
 interface MotionContextType {
   motion?: MotionType;
