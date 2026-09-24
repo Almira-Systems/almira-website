@@ -1,0 +1,160 @@
+@use "@/styling/colors" as c;
+
+.page {
+  background-color: var(--background);
+  color: var(--foreground);
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-geist-sans);
+  background-color: var(--background);
+  background-color: transparent;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 120px 60px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+  gap: 1.5vw;
+}
+
+:has(> .hero, > .services, > .about, > .contact) {
+  position: relative;
+}
+
+.heading {
+  font-family: var(--font-lexend);
+  font-size: var(--step-5);
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -2.4px;
+  text-wrap: balance;
+  color: var(--text-primary);
+
+  > .highlight {
+    color: c.$red;
+  }
+}
+
+.subheading {
+  font-size: var(--step-1);
+  font-weight: 400;
+  line-height: 32px;
+  text-wrap: balance;
+  color: var(--text-secondary);
+
+  font-family: var(--font-lexend);
+}
+
+.description {
+  text-align: center;
+  font-family: var(--font-lexend);
+  font-size: var(--step--1);
+}
+.cpu_thing {
+  z-index: -1;
+  margin-inline: auto;
+  height: 450px;
+  position: absolute;
+
+  &.top {
+    top: 60px;
+    rotate: -180deg;
+  }
+
+  &.bottom {
+    bottom: 60px;
+  }
+
+  &.left {
+    left: -200px;
+  }
+  &.right {
+    right: -200px;
+  }
+
+  > svg {
+    mix-blend-mode: normal;
+  }
+
+  .pulses {
+    g {
+      overflow: visible;
+      opacity: 0;
+      animation: circuit_flow_opacity 1.6s ease-out infinite;
+    }
+  }
+  .background {
+    g {
+      opacity: 0.15;
+    }
+  }
+
+  g {
+    overflow: visible;
+  }
+
+  path,
+  rect {
+    fill: none;
+    background: transparent;
+    &:is(.pulses path, .pulses rect) {
+      &[id^="path"] {
+        stroke-dasharray: 30 100;
+        mix-blend-mode: normal;
+        animation: circuit_flow_pulse 1.6s ease-out infinite forwards;
+        &.late {
+          animation-delay: -1.2s;
+        }
+      }
+    }
+  }
+}
+
+$circuit_flow_opacity: 0.3;
+
+@keyframes circuit_flow_opacity {
+  from {
+    opacity: 0;
+  }
+  5% {
+    opacity: $circuit_flow_opacity;
+  }
+  15% {
+    opacity: $circuit_flow_opacity;
+  }
+  50% {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes circuit_flow_pulse {
+  from {
+    stroke-dashoffset: 30;
+  }
+  8% {
+    stroke: c.$red;
+  }
+  51% {
+    stroke-dashoffset: -80;
+  }
+  to {
+    stroke-dashoffset: -80;
+  }
+}
