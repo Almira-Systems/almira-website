@@ -1,5 +1,5 @@
 import { query } from "@/lib/shopify";
-import { graphql, useFragment, type DocumentType } from "@/types/gql";
+import { useFragment, type DocumentType } from "@/types/gql";
 import { Suspense } from "react";
 import Product from "@/components/product";
 import styles from "./product_page.module.scss";
@@ -12,12 +12,7 @@ import {
   GetRelatedDevicesQuery,
   ProductCardFields,
 } from "@/lib/queries";
-
-interface ProductPageProps {
-  searchParams: Promise<{
-    h: string;
-  }>;
-}
+import RootLoading from "../loading";
 
 const getRelatedParts = async (
   productModels: DocumentType<typeof MetaobjectFields>[],
@@ -116,9 +111,17 @@ const getProductByHandle = async (handle: string) => {
   return { product: parsedProduct, productModels, relatedModels };
 };
 
-const ProductPage = async ({ searchParams }: ProductPageProps) => {
-  const { h } = await searchParams;
-  const { product, productModels, relatedModels } = await getProductByHandle(h);
+const ProductPageInner = async ({
+  searchParams,
+}: Omit<PageProps<"/all">, "params">) => {
+  const h = (await searchParams).h;
+  let handle = Array.isArray(h) ? h[0] : h;
+
+  if (!handle) {
+    notFound();
+  }
+  const { product, productModels, relatedModels } =
+    await getProductByHandle(handle);
   if (!product) {
     notFound();
   }
@@ -126,42 +129,47 @@ const ProductPage = async ({ searchParams }: ProductPageProps) => {
   const relatedParts = await getRelatedParts(productModels);
 
   return (
-    <Suspense>
-      <main className={styles.main}>
-        <div className={styles.product_area}>
-          <span>
-            <h4>{product.title}</h4>
-            <p>{product.description}</p>
-          </span>
-          <ProductInfo product={product} />
-        </div>
-        <div className={styles.related}>
-          {["Part", "Consumable", "Service"].includes(product.productType) ? (
-            <>
-              <h5>Devices that use this product</h5>
-              <Carousel
-                items={relatedDevices.map((p) => ({
-                  key: p.id + "related-devices",
-                  element: <Product key={p.id} product={p} />,
-                }))}
-              />
-            </>
-          ) : null}
-          {["Device", "Kit"].includes(product.productType) ? (
-            <>
-              <h5>Parts for this device</h5>
-              <Carousel
-                items={relatedParts.map((p) => ({
-                  key: p.id + "related-parts",
-                  element: <Product key={p.id} product={p} />,
-                }))}
-              />
-            </>
-          ) : null}
-        </div>
-      </main>
-    </Suspense>
+    <main className={styles.main}>
+      <div className={styles.product_area}>
+        <span>
+          <h4>{product.title}</h4>
+          <p>{product.description}</p>
+        </span>
+        <ProductInfo product={product} />
+      </div>
+      <div className={styles.related}>
+        {["Part", "Consumable", "Service"].includes(product.productType) ? (
+          <>
+            <h5>Devices that use this product</h5>
+            <Carousel
+              items={relatedDevices.map((p) => ({
+                key: p.id + "related-devices",
+                element: <Product key={p.id} product={p} />,
+              }))}
+            />
+          </>
+        ) : null}
+        {["Device", "Kit"].includes(product.productType) ? (
+          <>
+            <h5>Parts for this device</h5>
+            <Carousel
+              items={relatedParts.map((p) => ({
+                key: p.id + "related-parts",
+                element: <Product key={p.id} product={p} />,
+              }))}
+            />
+          </>
+        ) : null}
+      </div>
+    </main>
   );
 };
 
+const ProductPage = async ({ searchParams }: PageProps<"/all">) => {
+  return (
+    <Suspense fallback={<RootLoading />}>
+      <ProductPageInner searchParams={searchParams} />
+    </Suspense>
+  );
+};
 export default ProductPage;
