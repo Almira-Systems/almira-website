@@ -75,17 +75,6 @@ const ProductSearch = () => {
                   product: NonNullable<typeof autocompleteItems>[number],
                   index,
                 ) => {
-                  const models = product.models
-                    ?.map((m) =>
-                      useFragment(
-                        MetaobjectFields,
-                        m?.references?.nodes.filter(
-                          (n) => n.__typename === "Metaobject",
-                        ),
-                      ),
-                    )
-                    .flat()
-                    .filter((p) => p);
                   const relatedProducts = product.related_products
                     .map((p) =>
                       useFragment(
@@ -148,11 +137,11 @@ const ProductSearch = () => {
                               <span>
                                 For device models:{" "}
                                 {relatedProducts.map((p, i) => (
-                                  <>
+                                  <div key={`model_number_${i}`}>
                                     &nbsp;{p?.modelNumber?.value}
                                     {i < relatedProducts.length - 1 && ","}
                                     &nbsp;
-                                  </>
+                                  </div>
                                 ))}
                               </span>
                             ) : null}
