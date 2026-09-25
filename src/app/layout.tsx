@@ -4,6 +4,8 @@ import "@/styling/globals.scss";
 import { ContextWrapper } from "@/context/wrapper";
 import Footer from "./_components/footer";
 import Header from "./_components/header";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +40,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
         </body>
       </html>
+      <Analytics />
+      <SpeedInsights />
     </ContextWrapper>
   );
 }
