@@ -1,5 +1,3 @@
-import React from "react";
-
 export function LinkedInIcon({
   size = 24,
   color = "#fff",

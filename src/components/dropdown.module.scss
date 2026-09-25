@@ -13,7 +13,7 @@ button.trigger {
     margin: 0;
   }
 }
-div.dropdown {
+.menu_popup {
   color: c.$darkblue;
   background-color: c.$white;
   font-family: var(--font-open-sans);
@@ -41,31 +41,8 @@ div.dropdown {
     pointer-events: none;
     translate: 0 -8px;
   }
-  //
-  // &[data-align="right"] {
-  //   place-self: flex-end;
-  // }
-  //
-  // &[data-align="left"] {
-  //   place-self: flex-start;
-  // }
-  //
-  // &[data-align="center"] {
-  //   place-self: center;
-  // }
 
-  // &[data-open] {
-  //
-  // }
-
-  *[role="menuitem"].dropdown_item {
-    // white-space: nowrap;
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    // width: auto;
-    // box-sizing: content-box;
-    // max-width: 20ch;
-    //
+  *[role="menuitem"].menu_item {
     padding: 0.4rem;
     font-size: var(--step--3);
     &:not(.wrap) {

@@ -1,16 +1,7 @@
 "use client";
 
 import { CartContext } from "@/app/_components/cart_wrapper";
-import { useFragment } from "@/types/gql";
-import {
-  useState,
-  useEffect,
-  useContext,
-  useCallback,
-  useRef,
-  type RefObject,
-} from "react";
-import { CartFields } from "@/lib/queries";
+import { useState, useEffect, useContext } from "react";
 
 export const useMounted = () => {
   const [mounted, setMounted] = useState(false);
@@ -37,7 +28,7 @@ export const useClickOutside = (
 };
 
 export const useCart = () => {
-  const cartContext = useContext(CartContext); 
+  const cartContext = useContext(CartContext);
   if (!cartContext) {
     throw new Error("useCart must be used within a CartProvider");
   }

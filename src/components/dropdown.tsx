@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu } from "@base-ui/react/menu";
-import { useFloating, shift, autoUpdate } from "@floating-ui/react";
+// import { useFloating, shift, autoUpdate } from "@floating-ui/react";
 import { useId, type ComponentProps, type ReactElement } from "react";
 import styles from "./dropdown.module.scss";
 import { c } from "@/lib/utils";
@@ -38,32 +38,16 @@ const Dropdown = ({
   const dropdownId = useId();
   if (!id) id = dropdownId;
 
-  const { refs, floatingStyles } = useFloating({
-    placement: "bottom",
-    middleware: [
-      shift({
-        padding: 8,
-      }),
-    ],
-    whileElementsMounted: autoUpdate,
-  });
-
   return (
     <Menu.Root modal={false}>
       <Menu.Trigger className={styles.trigger}>{trigger}</Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner
-          className={styles.dropdown_container}
+          className={styles.menu_positioner}
           sticky={sticky}
           positionMethod={positionMethod}
         >
-          <div ref={refs.setReference} />
-          <Menu.Popup
-            id={id}
-            ref={refs.setFloating}
-            className={`${styles.dropdown} ${className}`}
-            style={floatingStyles}
-          >
+          <Menu.Popup id={id} className={`${styles.menu_popup} ${className}`}>
             {options.map(({ truncate = false, wrap = true, ...opt }) => {
               const itemOnClick = () => {
                 if (opt.onClick) {
@@ -72,7 +56,7 @@ const Dropdown = ({
               };
               const Item = opt.link ? Menu.LinkItem : Menu.Item;
               const classes = [
-                styles.dropdown_item,
+                styles.menu_item,
                 truncate ? styles.truncate : null,
                 wrap ? styles.wrap : null,
               ];
@@ -82,7 +66,8 @@ const Dropdown = ({
                   onClick={itemOnClick}
                   closeOnClick={false}
                   className={c(...classes)}
-                  href={(opt.href?.length ?? 0) > 0 ? opt.href : ''}
+                  //@ts-ignore
+                  href={(opt.href?.length ?? 0) > 0 ? opt.href : null}
                 >
                   {opt.label}
                 </Item>

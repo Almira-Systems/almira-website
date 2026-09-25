@@ -241,18 +241,6 @@ async function parseDevicesImportData(workbook: exceljs.Workbook) {
   return modelsToAdd;
 }
 
-const GetDevicesByModelsQuery = graphql(/* gql */ `
-  query GetDevicesByModels($modelNumbers: [String!]!) {
-    products(first: 100, query: "product_type:Device") {
-      nodes {
-        id
-        title
-        handle
-      }
-    }
-  }
-`);
-
 async function defineMetaobjects(
   modelsToAdd: Set<string>,
   relatedDevices: ProductCardFieldsFragment[],

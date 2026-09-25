@@ -1,6 +1,5 @@
 "use client";
 import { getPlaceholderImage } from "@/lib/utils";
-import { InfoIcon } from "lucide-react";
 import Image from "next/image";
 import { type DocumentType } from "@/types/gql";
 import styles from "../product_page.module.scss";
@@ -22,7 +21,7 @@ const ProductInfo = ({ product }: ProductProps) => {
     product.variants.nodes?.[0],
   );
   const [quantity, setQuantity] = useState(1);
-  const { cart, refetch } = useCart();
+  const { refetch } = useCart();
 
   const variants = product.variants.nodes.filter(
     (n) => n.title !== "Default Title",

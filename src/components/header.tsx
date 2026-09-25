@@ -68,19 +68,13 @@ const Header = () => {
               label: "All Products",
               value: "all_products",
               link: true,
-              href: "#all",
-            },
-            {
-              label: "Devices",
-              value: "devices",
-              link: true,
-              href: "#devices",
+              href: "/all",
             },
             {
               label: "Parts & Consumables",
               value: "parts_and_consumables",
               link: true,
-              href: "#parts-and-consumables",
+              href: "/",
               wrap: false,
             },
           ]}

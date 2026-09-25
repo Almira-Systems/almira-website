@@ -1,5 +1,5 @@
 "use client";
-import { createContext, Suspense, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { getCart } from "../actions";
 
 type CartData = {

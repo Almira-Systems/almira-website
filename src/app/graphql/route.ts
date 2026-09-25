@@ -4,13 +4,9 @@ import type { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as Record<string, unknown>;
-    const shopName = process.env.SHOPIFY_STORE_NAME;
-    const apiVersion = "2026-04";
 
-    // Forward the query directly to Shopify
     const response = await fetch(
       `http://localhost:${process.env.PORT}/graphql`,
-      // `${process.env.SHOPIFY_STOREFRONT_DOMAIN}/api/${apiVersion}/graphql.json`,
       {
         method: "POST",
         headers: {
@@ -19,7 +15,6 @@ export async function POST(request: NextRequest) {
             process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN ?? "",
         },
         body: JSON.stringify(body),
-        // Ensures you get real-time schema updates from Shopify without caching
         cache: "no-store",
       },
     );

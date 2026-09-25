@@ -1,10 +1,5 @@
 "use client";
-import {
-  graphql,
-  useFragment,
-  type FragmentType,
-  type DocumentType,
-} from "@/types/gql";
+import { type DocumentType } from "@/types/gql";
 import Image from "next/image";
 import styles from "./product.module.scss";
 import { useRouter } from "next/navigation";

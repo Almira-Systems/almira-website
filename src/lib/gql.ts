@@ -1,4 +1,3 @@
-import { ProductCardFields } from "./queries";
 import { graphql, useFragment, type FragmentType } from "@/types/gql";
 export const MetaobjectFields = graphql(/* gql */ `
   fragment MetaobjectDetails on Metaobject {
@@ -18,7 +17,3 @@ export const parseMetaobject = (
     return useFragment(MetaobjectFields, metaobject);
   }
 };
-
-export const parseProductModels = (
-  product: FragmentType<typeof ProductCardFields>,
-) => {};
