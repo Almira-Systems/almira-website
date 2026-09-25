@@ -1,6 +1,6 @@
 "use client";
-import styles from "./page.module.scss";
 import CpuThing from "./_components/cpuThing";
+import styles from "./page.module.scss";
 
 export default function Home() {
   return (
