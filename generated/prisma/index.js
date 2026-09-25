@@ -118,7 +118,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/sean/projects/shopify-test/generated/prisma",
+      "value": "/home/sean/projects/ameriwater-storefront/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -132,7 +132,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/sean/projects/shopify-test/prisma/schema.prisma",
+    "sourceFilePath": "/home/sean/projects/ameriwater-storefront/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
